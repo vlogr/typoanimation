@@ -1,11 +1,26 @@
 .o-animation {
+  position: relative;
   display: grid;
   place-items: center;
   height: 100vh;
   background: $dark;
 
+  &+& {
+    border-top: 10px solid $green;
+  }
+
+  &__sub {
+    position: absolute;
+    top: 100px;
+    left: 50%;
+    color: $orange;
+    font-size: 30px;
+    transform: translateX(-50%);
+  }
+
   &__title {
     color: $white;
     font-size: rem(80px);
+    margin-bottom: 0;
   }
 }
