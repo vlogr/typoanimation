@@ -1,0 +1,11 @@
+.o-animation {
+  display: grid;
+  place-items: center;
+  height: 100vh;
+  background: $dark;
+
+  &__title {
+    color: $white;
+    font-size: rem(80px);
+  }
+}
