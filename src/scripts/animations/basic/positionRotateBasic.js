@@ -1,9 +1,9 @@
-import { gsap, SplitText } from "../vendor/gsap-shockingly-green/src/all";
+import { gsap, SplitText } from "../../vendor/gsap-shockingly-green/src/all";
 
 gsap.registerPlugin(SplitText);
 
-const $title = document.querySelector('.js-texts-animation-2')
-const totalDuration = 1
+const $title = document.querySelector('.js-texts-animation-4')
+const totalDuration = 2
 
 const $SplitTitle = new SplitText($title);
 const $words = $SplitTitle.words
@@ -11,7 +11,7 @@ const $words = $SplitTitle.words
 $words.reverse()
 
 const  duration = totalDuration / $words.length
-const stagger = duration / 2
+const stagger = duration / 1.5
 
 const tl = gsap.timeline({
   repeat: -1,
@@ -19,10 +19,11 @@ const tl = gsap.timeline({
   repeatDelay: 2
 });
 
-gsap.set($words, {autoAlpha: 0, y: 100})
+gsap.set($words, {visibility: 'hidden', y: 300, rotate: -200})
       
 tl.to($words, {
-  autoAlpha: 1,
+  visibility: 'visible',
+  rotate: 0,
   y: 0,
   duration: duration,
   stagger: stagger,

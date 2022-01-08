@@ -4,6 +4,7 @@
   place-items: center;
   height: 100vh;
   background: $dark;
+  overflow: hidden;
 
   &+& {
     border-top: 10px solid $green;
