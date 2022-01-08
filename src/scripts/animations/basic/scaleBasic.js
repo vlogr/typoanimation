@@ -3,7 +3,7 @@ import { gsap, SplitText } from "../../vendor/gsap-shockingly-green/src/all";
 gsap.registerPlugin(SplitText);
 
 const $title = document.querySelector('.js-texts-animation-7')
-const totalDuration = 2
+const totalDuration = 1.5
 
 const $SplitTitle = new SplitText($title);
 const $words = $SplitTitle.words
@@ -35,5 +35,5 @@ $words.forEach($word => {
     charsTl.to(node, {scale: 1, duration: duration, force3d: true}, -duration)
   })
 })
-
+ 
 
