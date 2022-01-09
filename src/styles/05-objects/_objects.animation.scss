@@ -1,112 +1,122 @@
 .o-animation {
-  $root: &;
+    $root: &;
 
-  position: relative;
-  display: grid;
-  place-items: center;
-  height: 100vh;
-  background: $black;
-  overflow: hidden;
+    position: relative;
+    display: grid;
+    place-items: center;
+    height: 100vh;
+    background: $black;
+    overflow: hidden;
 
-  &+& {
-    border-top: 10px solid $green;
-  }
-
-  &__sub {
-    position: absolute;
-    top: 100px;
-    left: 50%;
-    color: $green;
-    font-size: 24px;
-    transform: translateX(-50%);
-    text-transform: uppercase;
-    font-weight: $font-weight-bold;
-  }
-
-  &__title {
-    color: $white;
-    font-size: rem(80px);
-    margin-bottom: 0;
-    text-transform: uppercase;
-  }
-
- 
-
-  &--2 {
-    #{$root}{
-      &__title {
-        font-size: 42px;
-        font-weight: $font-weight-bolder;
-
-        .small {
-          font-size: 38px;
-        }
-
-        .big {
-          font-size: 58px;
-        }
-      }
+    &+& {
+        border-top: 10px solid $green;
     }
-  }
-  
 
-  &--3 {
-    #{$root}{
-      &__title {
-        font-size: 46px;
-        font-weight: $font-weight-bolder;
-
-
-        .big {
-          font-size: 59px;
-        }
-      }
+    &__sub {
+        position: absolute;
+        top: 100px;
+        left: 50%;
+        color: $green;
+        font-size: 24px;
+        transform: translateX(-50%);
+        text-transform: uppercase;
+        font-weight: $font-weight-bold;
     }
-  }
 
-  &--4, &--5 {
-    #{$root}{
-      &__title {
-        font-size: 48px;
-        font-weight: $font-weight-bolder;
-
-        .small {
-          font-size: 33px;
-        }
-
-        .big {
-          font-size: 58px;
-        }
-      }
+    &__title {
+        color: $white;
+        font-size: rem(70px);
+        margin-bottom: 0;
+        text-transform: uppercase;
     }
-  }
-
-  &--6 {
-    #{$root}{
-      &__title {
-        font-size: 46px;
 
 
-        .big {
-          font-size: 50px;
-          font-weight: $font-weight-bolder;
+
+    &--2 {
+        #{$root} {
+            &__title {
+                font-size: 42px;
+                font-weight: $font-weight-bolder;
+
+                .small {
+                    font-size: 38px;
+                }
+
+                .big {
+                    font-size: 58px;
+                }
+            }
         }
-      }
     }
-  }
-
-  &--7 {
-    #{$root}{
-      &__title {
-        font-size: 44px;
 
 
-        .big {
-          font-size: 80px;
-          font-weight: $font-weight-bolder;
+    &--3 {
+        #{$root} {
+            &__title {
+                font-size: 46px;
+                font-weight: $font-weight-bolder;
+
+
+                .big {
+                    font-size: 59px;
+                }
+            }
         }
-      }
     }
-  }
+
+    &--4,
+    &--5 {
+        #{$root} {
+            &__title {
+                font-size: 48px;
+                font-weight: $font-weight-bolder;
+
+                .small {
+                    font-size: 33px;
+                }
+
+                .big {
+                    font-size: 58px;
+                }
+            }
+        }
+    }
+
+    &--6 {
+        #{$root} {
+            &__title {
+                font-size: 46px;
+
+
+                .big {
+                    font-size: 50px;
+                    font-weight: $font-weight-bolder;
+                }
+            }
+        }
+    }
+
+    &--7 {
+        #{$root} {
+            &__title {
+                font-size: 44px;
+
+
+                .big {
+                    font-size: 80px;
+                    font-weight: $font-weight-bolder;
+                }
+            }
+        }
+    }
+
+    &--8 {
+        #{$root} {
+            &__title {
+                font-size: $h1-font-size;
+
+            }
+        }
+    }
 
 }

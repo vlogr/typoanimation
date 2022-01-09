@@ -1,4 +1,7 @@
-import { gsap, SplitText } from "../../vendor/gsap-shockingly-green/src/all";
+import {
+    gsap,
+    SplitText
+} from "../../vendor/gsap-shockingly-green/src/all";
 
 gsap.registerPlugin(SplitText);
 
@@ -11,19 +14,21 @@ const $words = $SplitTitle.words
 
 $words.reverse()
 
-const  duration = totalDuration / $words.length
+const duration = totalDuration / $words.length
 const stagger = duration / 2
 
 const tl = gsap.timeline({
-  repeat: -1,
-  yoyo: true,
-  repeatDelay: 2
+    repeat: -1,
+    yoyo: true,
+    repeatDelay: 2
 });
 
-gsap.set($words, {autoAlpha: 0})
-      
+gsap.set($words, {
+    autoAlpha: 0
+})
+
 tl.to($words, {
-  autoAlpha: 1,
-  duration: duration,
-  stagger: stagger,
+    autoAlpha: 1,
+    duration: duration,
+    stagger: stagger,
 })
