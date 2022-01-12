@@ -11,10 +11,8 @@ const totalDuration = 1
 const $SplitTitle = new SplitText($title);
 const $words = $SplitTitle.words
 
-$words.reverse()
-
 const duration = totalDuration / $words.length
-const stagger = duration / 1.1
+const stagger = duration / 2
 
 const tl = gsap.timeline({
     repeat: -1,
@@ -24,12 +22,25 @@ const tl = gsap.timeline({
 
 gsap.set($words, {
     visibility: 'hidden',
-    y: 300
+    y: 300,
+    
 })
 
 tl.to($words, {
     visibility: 'visible',
     y: 0,
     duration: duration,
-    stagger: stagger,
-})
+    stagger: {
+        from: 'end',
+        each: stagger
+    },
+}).from($words, {
+    rotation: 0.01,
+    textShadow: '0px 8px 8px #fff, 0px -6px 5px #fff',
+    scaleY: 1.3,
+    duration: duration,
+    stagger: {
+        from: 'end',
+        each: stagger
+    },
+},0.02)

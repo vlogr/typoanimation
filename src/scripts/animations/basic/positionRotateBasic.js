@@ -2,39 +2,65 @@ import {
     gsap,
     SplitText
 } from "../../vendor/gsap-shockingly-green/src/all";
+import distributeByPosition from '../../util/distributeByPosition'
+
 
 gsap.registerPlugin(SplitText);
 
 const $title = document.querySelector('.js-texts-animation-4')
-const totalDuration = 2.5
-
-const $SplitTitle = new SplitText($title);
+const totalDuration = 1
+const $SplitTitle = new SplitText($title, {linesClass: 'js-texts-animation-4-line', wordsClass: "words"});
 const $words = $SplitTitle.words
+const $lines = $SplitTitle.lines
 
-$words.reverse()
+const duration = totalDuration / $lines.length
+const stagger = duration * 1
 
-const duration = totalDuration / $words.length
-const stagger = duration / 3
-
-const tl = gsap.timeline({
+const masterTl = gsap.timeline({
     repeat: -1,
     yoyo: true,
-    repeatDelay: 2
+    repeatDelay: 1
 });
+
+$words.forEach(($word, i) => gsap.set($word, {zIndex: i}))
 
 gsap.set($words, {
     visibility: 'hidden',
     y: 300,
-    rotate: -200
+    rotation: -130,
+    textShadow: '-2px 2px 4px #fff, -2px -2px 3px #fff',
+    scaleY: 1.3,
 })
 
-tl.to($words, {
+masterTl.to($words, {
     visibility: 'visible',
     y: 0,
+    rotation: 0,
+    textShadow: '0px 0px 0px #fff, 0px -0px 0px #fff',
+    scaleY: 1, 
     duration: duration,
-    stagger: stagger,
-}).to($words, {
-    rotate: 0,
-    duration: duration,
-    stagger: duration / 3.1,
-}, 0)
+    stagger: distributeByPosition({
+        amount: stagger,
+        axis:"y",
+        from: 'end'
+      }),
+})
+  
+
+
+  
+
+// // $lines.forEach($line => {
+// //     const linesTl = gsap.timeline()
+// //     masterTl.add(linesTl)
+
+// //     $line.querySelectorAll('.words').forEach(node => {
+//         linesTl.to(node, { keyframes: [
+//             { duration: duration, y: 0,  visibility: 'visible', },
+//             { duration: duration, rotate: 0, delay: -duration}, 
+//           ]}, -duration)
+// //     })
+// // })
+
+
+
