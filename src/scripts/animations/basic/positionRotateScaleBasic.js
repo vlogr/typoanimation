@@ -7,7 +7,7 @@ import {
 gsap.registerPlugin(SplitText, CustomEase);
 
 const $title = document.querySelector('.js-texts-animation-5')
-const totalDuration = 3.5
+const totalDuration = 1.5
 
 const $SplitTitle = new SplitText($title);
 const $words = $SplitTitle.words
@@ -17,7 +17,7 @@ $words.reverse()
 
 
 const duration = totalDuration / $words.length
-const stagger = duration / 4
+const stagger = duration / 2
 
 const tl = gsap.timeline({
     repeat: -1,
@@ -26,32 +26,27 @@ const tl = gsap.timeline({
 });
 
 gsap.set($words, {
-    visibility: 'hidden',
-    y: 120,
+    y: 100,
     scale: 0,
-    rotate: 280,
+    textShadow: '8px -8px 15px #fff, 5px 5px 15px #fff',
+    rotate: 180,
 })
 
 tl.to($words, {
-    keyframes: [{
-            visibility: 'visible',
-            duration: 0
+    keyframes: [
+        {
+            y: 0,
+            duration: duration,
+            ease: CustomEase.create("custom", "M0,0 C0.482,0.174 0.478,0.136 0.7,0.3 0.856,0.462 0.898,0.52 1,1 "),
         },
         {
             rotation: 0,
             scale: 1,
-            duration: duration * 1.2,
-            delay: 0,
-            ease: CustomEase.create("custom", "M0,0 C0,0 0.192,0.2 0.512,0.518 0.948,0.716 0.964,0.844 1,1 ")
-        },
-        {
-            y: 0,
-            duration: duration,
-            delay: 0,
-            delay: -duration / 1.1,
-            ease: CustomEase.create("custom", "M0,0 C0,0 0.529,0.385 0.586,0.59 0.685,0.951 0.826,0.95 1,1 ")
+            textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff',
+            duration: duration * 3,
+            delay: -duration * 3,
         },
     ],
-    
     stagger: stagger,
+    
 })

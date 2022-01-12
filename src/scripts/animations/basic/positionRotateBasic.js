@@ -45,22 +45,3 @@ masterTl.to($words, {
         from: 'end'
       }),
 })
-  
-
-
-  
-
-// // $lines.forEach($line => {
-// //     const linesTl = gsap.timeline()
-// //     masterTl.add(linesTl)
-
-// //     $line.querySelectorAll('.words').forEach(node => {
-//         linesTl.to(node, { keyframes: [
-//             { duration: duration, y: 0,  visibility: 'visible', },
-//             { duration: duration, rotate: 0, delay: -duration}, 
-//           ]}, -duration)
-// //     })
-// // })
-
-
-
