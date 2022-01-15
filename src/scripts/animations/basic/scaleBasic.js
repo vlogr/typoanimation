@@ -16,7 +16,7 @@ $words.reverse()
 $chars.reverse()
 
 const duration = totalDuration / $words.length
-const stagger = duration / 1.5
+const stagger = duration / 1.9
 
 const mastertl = gsap.timeline({
     repeat: -1,
