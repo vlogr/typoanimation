@@ -1,3 +1,9 @@
+/**
+ * Given an array of elements, this function will return a function that will calculate the position of
+ * each element in the array relative to the others
+ * @param vars - An object containing the following properties:
+ * @returns A function that takes a value and returns a value.
+ */
 function distributeByPosition(vars) {
     let ease = vars.ease,
       from = vars.from || 0,

@@ -1,3 +1,8 @@
+/**
+ * It returns the position of an element relative to the top left corner of the window.
+ * @param element - The element to get the position of.
+ * @returns A JavaScript object with two properties: left and top.
+ */
 function getPosition(element) {
   let clientRect = element.getBoundingClientRect();
   var html = document.documentElement;

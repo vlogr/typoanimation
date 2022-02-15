@@ -1,3 +1,4 @@
+/* It's importing all the files in the folder `basic` */
 import './basic/fadeBasic'
 import './basic/fadePositionBasic'
 import './basic/positionBasic'
