@@ -38,7 +38,7 @@ $words.forEach($word => {
     const charsTl = gsap.timeline()
     charsTl._delay = -stagger
     mastertl.add(charsTl)
-   
+
     $word.childNodes.forEach(node => {
         if (node instanceof Element ||
             node instanceof HTMLDocument) {

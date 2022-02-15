@@ -23,7 +23,7 @@ const tl = gsap.timeline({
 gsap.set($words, {
     visibility: 'hidden',
     y: 300,
-    
+
 })
 
 tl.to($words, {
