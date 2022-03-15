@@ -13,6 +13,7 @@ gsap.registerPlugin(SplitText);
 /* This is importing the `switchPositions` function from the `components` folder. */
 import switchPositions from '../../components/switchPositions'
 
+import generateTextShadow from '../../components/generateTextShadow'
 
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
@@ -20,7 +21,18 @@ import switchPositions from '../../components/switchPositions'
 const $title = document.querySelector('.js-texts-animation-3')
 
 /* This is creating a timeline for each word in the text. */
-positionBasic($title)
+positionBasic($title, {
+    direction: 'top',
+    styles: {
+        textShadow: {
+            color: 'green',
+            opacity: 1,
+            offsetX: 10,
+            offsetY: -10,
+            blur: 5
+        }
+    }
+})
 
 
 
@@ -33,17 +45,13 @@ positionBasic($title)
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function positionBasic($texts, totalDuration, optionsParam) {
+function positionBasic($texts, optionsParam) {
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
     const $words = $SplitTitle.words
 
-    /* This is creating a default value for the parameters. */
-    const defaultTotalDuration = totalDuration || 1 ,
-          defaultEachDuration = defaultTotalDuration /$words.length,
-          defaultStagger = defaultEachDuration / 2
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
     let options = {}
@@ -52,19 +60,32 @@ function positionBasic($texts, totalDuration, optionsParam) {
     parameters. */
     const defaults = {
         direction: 'bottom',
-        totalDuration: defaultTotalDuration,
-        eachDuration: defaultEachDuration,
-        stagger: defaultStagger,
+        totalDuration: 1,
+        eachDuration: function(){
+            return this.totalDuration / $words.length
+        },
+        stagger: function(){
+            return this.eachDuration()
+        },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2
+        repeatDelay: 2,
+        styles: {
+            textShadow: {
+                color: 'green',
+                opacity: 0,
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0
+            }
+        }
     }
 
     for (let prop in defaults) {
         options[prop] = defaults[prop]
     }
 
-    for (prop in optionsParam) {
+    for (let prop in optionsParam) {
         options[prop] = optionsParam[prop]
     }
 
@@ -86,7 +107,10 @@ function positionBasic($texts, totalDuration, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you will get idea about animations direction */
-    let position = switchPositions('rightBottom', 300)
+    let position = switchPositions(options.direction, 300)
+
+
+    const textShadow =  generateTextShadow(options.styles.textShadow)
 
 
     /* This is setting the visibility of the words to hidden and setting the y and x position of the
@@ -94,7 +118,8 @@ function positionBasic($texts, totalDuration, optionsParam) {
     gsap.set($words, {
         visibility: 'hidden',
         y: position.y,
-        x: position.x
+        x: position.x,
+        textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
     })
 
     /* This is setting the visibility of the words to visible, setting the y and x position of the
@@ -107,23 +132,23 @@ function positionBasic($texts, totalDuration, optionsParam) {
         y: 0,
         x: 0,
         /* This is setting the duration of the animation for each word. */
-        duration: options.eachDuration,
+        duration: options.eachDuration(),
 
         /* This is setting the stagger to start from the end of the animation. */
         stagger: {
             from: 'end', /** start center end */
-            each: options.stagger
+            each: options.stagger()
         },
     }).from($words, { // this is for motion blur'
         rotation: 0.01,
-        textShadow: '0px 8px 8px #fff, 0px -6px 5px #fff',
+        textShadow: '0px 8px 8px #fff, 0px -6px 5px #fff, '+ textShadow,
         scaleY: 1.3,
         /* This is setting the duration of the animation for each word. */
-        duration: options.eachDuration,
+        duration: options.eachDuration(),
         /* This is setting the stagger to start from the end of the animation. */
         stagger: {
             from: 'end', /** start center end */
-            each:  options.stagger
+            each:  options.stagger()
         },
     },0.02)
 }

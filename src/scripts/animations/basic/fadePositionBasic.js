@@ -11,6 +11,7 @@ gsap.registerPlugin(SplitText);
 /* This is importing the `switchPositions` function from the `components` folder. */
 import switchPositions from '../../components/switchPositions'
 
+import generateTextShadow from '../../components/generateTextShadow'
 
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
@@ -18,7 +19,17 @@ import switchPositions from '../../components/switchPositions'
 const $title = document.querySelector('.js-texts-animation-2')
 
 /* This is creating a timeline for each word in the text. */
-fadePositionBasic($title)
+fadePositionBasic($title, {
+    styles: {
+        textShadow: {
+            color: '#fa22ff',
+            opacity: 1,
+            offsetX: 10,
+            offsetY: -10,
+            blur: 5
+        }
+    }
+})
 
 
 
@@ -31,17 +42,13 @@ fadePositionBasic($title)
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function fadePositionBasic($texts, totalDuration, optionsParam) {
+function fadePositionBasic($texts, optionsParam) {
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
     const $words = $SplitTitle.words
 
-    /* This is creating a default value for the parameters. */
-    const defaultTotalDuration = totalDuration || 1 ,
-          defaultEachDuration = defaultTotalDuration /$words.length,
-          defaultStagger = defaultEachDuration / 2
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
     let options = {}
@@ -50,9 +57,13 @@ function fadePositionBasic($texts, totalDuration, optionsParam) {
     parameters. */
     const defaults = {
         direction: 'bottom',
-        totalDuration: defaultTotalDuration,
-        eachDuration: defaultEachDuration,
-        stagger: defaultStagger,
+        totalDuration: 1,
+        eachDuration: function(){
+            return this.totalDuration / $words.length
+        },
+        stagger: function(){
+            return this.eachDuration()
+        },
         repeat: -1,
         yoyo: true,
         repeatDelay: 2
@@ -62,7 +73,7 @@ function fadePositionBasic($texts, totalDuration, optionsParam) {
         options[prop] = defaults[prop]
     }
 
-    for (prop in optionsParam) {
+    for (let prop in optionsParam) {
         options[prop] = optionsParam[prop]
     }
 
@@ -84,15 +95,16 @@ function fadePositionBasic($texts, totalDuration, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let position = switchPositions('top', 50)
-
+    let position = switchPositions(options.direction, 50)
+    const textShadow =  generateTextShadow(options.styles.textShadow)
 
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($words, {
         autoAlpha: 0,
         y: position.y,
-        x: position.x
+        x: position.x,
+        textShadow: textShadow,
     })
 
     /* This is setting the opacity of the words to 1 and the position of the words to 0. */
@@ -104,12 +116,12 @@ function fadePositionBasic($texts, totalDuration, optionsParam) {
         /* Setting the x position of the words to 0. */
         x: 0,
         /* This is setting the duration of the animation for each word. */
-        duration: options.eachDuration,
+        duration: options.eachDuration(),
 
         /* This is setting the stagger to start from the end of the animation. */
         stagger: {
             from: 'end', /** start center end */
-            each:  options.stagger
+            each:  options.stagger()
         }
     })
 }
