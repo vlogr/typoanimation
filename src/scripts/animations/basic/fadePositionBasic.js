@@ -20,6 +20,11 @@ const $title = document.querySelector('.js-texts-animation-2')
 
 /* This is creating a timeline for each word in the text. */
 fadePositionBasic($title, {
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 1,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 2,
+
     styles: {
         textShadow: {
             color: '#fa22ff',
@@ -57,16 +62,26 @@ function fadePositionBasic($texts, optionsParam) {
     parameters. */
     const defaults = {
         direction: 'bottom',
-        totalDuration: 1,
+        inDuration: 1,
+        outDuration: 1,
         eachDuration: function(){
-            return this.totalDuration / $words.length
+            return this.inDuration  / $words.length
         },
         stagger: function(){
             return this.eachDuration()
         },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2
+        repeatDelay: 2,
+        styles: {
+            textShadow: {
+                color: 'green',
+                opacity: 0,
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0
+            }
+        }
     }
 
     for (let prop in defaults) {
@@ -87,7 +102,18 @@ function fadePositionBasic($texts, optionsParam) {
         yoyo: options.yoyo,
 
         /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay
+        repeatDelay: options.repeatDelay,
+
+        /* This is setting the out time duration of the animation for each word. */
+        onRepeat: ()=> {
+            tl.duration( options.outDuration );
+        },
+
+        /* This is setting the in time duration of the animation for each word. */
+        onStart: () => {
+            tl.duration( options.inDuration );
+        },
+
     });
 
 

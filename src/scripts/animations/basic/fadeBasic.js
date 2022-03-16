@@ -15,7 +15,11 @@ const $title = document.querySelector('.js-texts-animation-1')
 
 /* This is creating a timeline for each word in the text. */
 fadeBasic($title, {
-    totalDuration: 1,
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 1,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 2,
+
     styles: {
         textShadow: {
             color: 'green',
@@ -40,8 +44,6 @@ fadeBasic($title, {
 
 function fadeBasic($texts,  optionsParam) {
 
-    console.log(optionsParam);
-
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
@@ -54,16 +56,17 @@ function fadeBasic($texts,  optionsParam) {
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
     const defaults = {
-        totalDuration: 1,
+        inDuration: 1,
+        outDuration: 1,
         eachDuration: function(){
-            return this.totalDuration / $words.length
+            return this.inDuration / $words.length
         },
         stagger: function(){
             return this.eachDuration()
         },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2,
+        repeatDelay: 20,
         styles: {
             textShadow: {
                 color: 'green',
@@ -95,7 +98,18 @@ function fadeBasic($texts,  optionsParam) {
         yoyo: options.yoyo,
 
         /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay
+        repeatDelay: options.repeatDelay,
+
+        /* This is setting the out time duration of the animation for each word. */
+        onRepeat: ()=> {
+            tl.duration( options.outDuration );
+        },
+
+
+        onStart: ()=> {
+            tl.duration( options.inDuration);
+        }
+
     });
 
     /* This is setting the opacity of the words to 0. */
@@ -117,6 +131,6 @@ function fadeBasic($texts,  optionsParam) {
         stagger: {
             from: 'end', /** start center end */
             each: options.stagger()
-        },
+        }
     })
 }

@@ -10,6 +10,8 @@ import {
 /* This is registering the plugin with the `gsap` library. */
 gsap.registerPlugin(SplitText, CustomEase);
 
+import generateTextShadow from '../../components/generateTextShadow'
+
 
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
@@ -17,7 +19,22 @@ gsap.registerPlugin(SplitText, CustomEase);
 const $title = document.querySelector('.js-texts-animation-7')
 
 /* This is creating a timeline for each word in the text. */
-scaleBasic($title)
+scaleBasic($title, {
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 1,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 2,
+
+    styles: {
+        textShadow: {
+            color: '#fa22ff',
+            opacity: 1,
+            offsetX: 10,
+            offsetY: -10,
+            blur: 5
+        }
+    }
+})
 
 
 
@@ -30,7 +47,7 @@ scaleBasic($title)
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function scaleBasic($texts, totalDuration, optionsParam) {
+function scaleBasic($texts, optionsParam) {
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
@@ -46,10 +63,6 @@ function scaleBasic($texts, totalDuration, optionsParam) {
     $words.reverse()
     $chars.reverse()
 
-    /* This is creating a default value for the parameters. */
-    const defaultTotalDuration = totalDuration || 1.2 ,
-          defaultEachDuration = defaultTotalDuration /$words.length,
-          defaultStagger = defaultEachDuration / 1.9
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
     let options = {}
@@ -57,19 +70,33 @@ function scaleBasic($texts, totalDuration, optionsParam) {
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
     const defaults = {
-        totalDuration: defaultTotalDuration,
-        eachDuration: defaultEachDuration,
-        stagger: defaultStagger,
+        inDuration: 1,
+        outDuration: 1,
+        eachDuration: function(){
+            return this.inDuration / $words.length
+        },
+        stagger: function(){
+            return this.eachDuration() / 1.9
+        },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2
+        repeatDelay: 2,
+        styles: {
+            textShadow: {
+                color: 'green',
+                opacity: 0,
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0
+            }
+        }
     }
 
     for (let prop in defaults) {
         options[prop] = defaults[prop]
     }
 
-    for (prop in optionsParam) {
+    for (let prop in optionsParam) {
         options[prop] = optionsParam[prop]
     }
 
@@ -83,27 +110,41 @@ function scaleBasic($texts, totalDuration, optionsParam) {
          yoyo: options.yoyo,
 
          /* This is setting the delay between each repeat. */
-         repeatDelay: options.repeatDelay
+         repeatDelay: options.repeatDelay,
+
+         /* This is setting the in time duration of the animation for each word. */
+         onStart: () => {
+            mastertl.duration( options.inDuration );
+         },
+
+         /* This is setting the out time duration of the animation for each word. */
+         onRepeat: ()=> {
+            mastertl.duration( options.outDuration );
+         },
     });
+
+    const textShadow =  generateTextShadow(options.styles.textShadow)
+
 
     /* This is setting the scale of the characters to 0 and the transform origin to the top center. */
     gsap.set($chars, {
         scale: 0,
-        transformOrigin: 'top center'
+        transformOrigin: 'top center',
+        textShadow: textShadow,
     })
 
     /* This is setting the duration of the animation for each word. */
     mastertl.to($words, {
-        duration:  options.eachDuration,
+        duration:  options.eachDuration(),
         /* Setting the stagger of the timeline. */
-        stagger: options.stagger,
+        stagger: options.stagger(),
     })
 
     /* This is creating a timeline for each word in the text. */
     $words.forEach($word => {
         const charsTl = gsap.timeline()
         /* This is setting the delay of the timeline for each word. */
-        charsTl._delay = -options.stagger
+        charsTl._delay = -options.stagger()
         /* This is adding the timeline to the master timeline. */
         mastertl.add(charsTl)
 
@@ -116,7 +157,7 @@ function scaleBasic($texts, totalDuration, optionsParam) {
                 node instanceof HTMLDocument) {
                 charsTl.to(node, {
                     scale: 1,
-                    duration: options.eachDuration,
+                    duration: options.eachDuration(),
                     /* This is setting the easing of the timeline to a sine curve. */
                     ease: "sine.out",
                 }, 0)

@@ -6,6 +6,9 @@ import {
     CustomEase
 } from "../../vendor/gsap-shockingly-green/src/all";
 
+import generateTextShadow from '../../components/generateTextShadow'
+
+
 /* This is registering the plugin with the `gsap` library. */
 gsap.registerPlugin(SplitText, CustomEase);
 
@@ -16,8 +19,22 @@ gsap.registerPlugin(SplitText, CustomEase);
 const $title = document.querySelector('.js-texts-animation-6')
 
 /* This is creating a timeline for each word in the text. */
-positionScaleBasic($title)
+positionScaleBasic($title, {
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 2,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 2,
 
+    styles: {
+        textShadow: {
+            color: '#fa22ff',
+            opacity: 1,
+            offsetX: 10,
+            offsetY: -10,
+            blur: 5
+        }
+    }
+})
 
 
 /**
@@ -25,11 +42,10 @@ positionScaleBasic($title)
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function positionScaleBasic($texts, totalDuration, optionsParam) {
+function positionScaleBasic($texts, optionsParam) {
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
@@ -38,10 +54,6 @@ function positionScaleBasic($texts, totalDuration, optionsParam) {
 
     $words.reverse()
 
-    /* This is creating a default value for the parameters. */
-    const defaultTotalDuration = totalDuration || 2 ,
-          defaultEachDuration = defaultTotalDuration /$words.length,
-          defaultStagger = defaultEachDuration / 3
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
     let options = {}
@@ -50,19 +62,33 @@ function positionScaleBasic($texts, totalDuration, optionsParam) {
     parameters. */
     const defaults = {
         direction: 'bottom',
-        totalDuration: defaultTotalDuration,
-        eachDuration: defaultEachDuration,
-        stagger: defaultStagger,
+        inDuration: 1,
+        outDuration: 1,
+        eachDuration: function(){
+            return this.inDuration / $words.length
+        },
+        stagger: function(){
+            return this.eachDuration() / 3
+        },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2
+        repeatDelay: 2,
+        styles: {
+            textShadow: {
+                color: 'green',
+                opacity: 0,
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0
+            }
+        }
     }
 
     for (let prop in defaults) {
         options[prop] = defaults[prop]
     }
 
-    for (prop in optionsParam) {
+    for (let prop in optionsParam) {
         options[prop] = optionsParam[prop]
     }
 
@@ -76,9 +102,20 @@ function positionScaleBasic($texts, totalDuration, optionsParam) {
         yoyo: options.yoyo,
 
         /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay
+        repeatDelay: options.repeatDelay,
+
+        /* This is setting the out time duration of the animation for each word. */
+        onRepeat: ()=> {
+            tl.duration( options.outDuration );
+        },
+
+        /* This is setting the in time duration of the animation for each word. */
+        onStart: () => {
+            tl.duration( options.inDuration );
+        },
     });
 
+    const textShadow =  generateTextShadow(options.styles.textShadow)
 
 
     /* This is setting the visibility of the words to hidden, the transformOrigin to center left, the
@@ -87,7 +124,7 @@ function positionScaleBasic($texts, totalDuration, optionsParam) {
         visibility: 'hidden',
         transformOrigin: 'center left',
         scale: 0,
-        textShadow: '-2px 2px 4px #fff, -2px -2px 3px #fff',
+        textShadow: '-2px 2px 4px #fff, -2px -2px 3px #fff, ' + textShadow,
     })
 
     /* This is setting the visibility of the words to visible, the transformOrigin to center left, the
@@ -96,9 +133,9 @@ function positionScaleBasic($texts, totalDuration, optionsParam) {
         visibility: 'visible',
         rotate: 0,
         scale: 1,
-        textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff',
-        duration: options.eachDuration,
-        stagger: options.stagger,
+        textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, ' + textShadow,
+        duration: options.eachDuration(),
+        stagger: options.stagger(),
         ease: CustomEase.create("custom", "M0,0 C0.482,0.174 0.478,0.136 0.7,0.3 0.856,0.462 0.898,0.52 1,1 "),
     })
 

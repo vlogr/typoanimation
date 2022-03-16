@@ -23,6 +23,10 @@ const $title = document.querySelector('.js-texts-animation-3')
 /* This is creating a timeline for each word in the text. */
 positionBasic($title, {
     direction: 'top',
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 10,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 4,
     styles: {
         textShadow: {
             color: 'green',
@@ -41,7 +45,6 @@ positionBasic($title, {
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
@@ -60,9 +63,10 @@ function positionBasic($texts, optionsParam) {
     parameters. */
     const defaults = {
         direction: 'bottom',
-        totalDuration: 1,
+        inDuration: 1,
+        outDuration: 1,
         eachDuration: function(){
-            return this.totalDuration / $words.length
+            return this.inDuration / $words.length
         },
         stagger: function(){
             return this.eachDuration()
@@ -99,7 +103,17 @@ function positionBasic($texts, optionsParam) {
         yoyo: options.yoyo,
 
         /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay
+        repeatDelay: options.repeatDelay,
+
+        /* This is setting the in time duration of the animation for each word. */
+        onStart: () => {
+            tl.duration( options.inDuration );
+        },
+
+        /* This is setting the out time duration of the animation for each word. */
+        onRepeat: ()=> {
+            tl.duration( options.outDuration );
+        },
     });
 
 

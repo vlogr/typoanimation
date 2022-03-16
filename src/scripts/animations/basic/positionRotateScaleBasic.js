@@ -8,6 +8,8 @@ import {
 /* This is importing the `switchPositions` function from the `components` folder. */
 import switchPositions from '../../components/switchPositions'
 
+import generateTextShadow from '../../components/generateTextShadow'
+
 
 /* This is registering the plugin. */
 gsap.registerPlugin(SplitText);
@@ -19,8 +21,22 @@ gsap.registerPlugin(SplitText);
 const $title = document.querySelector('.js-texts-animation-5')
 
 /* This is creating a timeline for each word in the text. */
-positionRotateScaleBasic($title)
+positionRotateScaleBasic($title, {
+    /* This is setting the in time duration of the animation for each word. */
+    inDuration: 2,
+    /* This is setting the out time duration of the animation for each word. */
+    outDuration: 4,
 
+    styles: {
+        textShadow: {
+            color: 'green',
+            opacity: 1,
+            offsetX: 10,
+            offsetY: -10,
+            blur: 5
+        }
+    }
+})
 
 
 
@@ -29,11 +45,10 @@ positionRotateScaleBasic($title)
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
+function positionRotateScaleBasic($texts, optionsParam) {
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
@@ -46,10 +61,6 @@ function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
     /* This is reversing the order of the words in the text. */
     $words.reverse()
 
-    /* This is creating a default value for the parameters. */
-    const defaultTotalDuration = totalDuration || 1.5 ,
-          defaultEachDuration = defaultTotalDuration / $words.length,
-          defaultStagger = defaultEachDuration / 2
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
     let options = {}
@@ -57,21 +68,38 @@ function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
     const defaults = {
-        totalDuration: defaultTotalDuration,
-        eachDuration: defaultEachDuration,
-        stagger: defaultStagger,
+        inDuration: 1,
+        outDuration: 1,
+        eachDuration: function(){
+            return this.inDuration / $words.length
+        },
+        stagger: function(){
+            return this.eachDuration() / 2
+        },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 2
+        repeatDelay: 2,
+        styles: {
+            textShadow: {
+                color: 'green',
+                opacity: 0,
+                offsetX: 0,
+                offsetY: 0,
+                blur: 0
+            }
+        }
+
     }
 
     for (let prop in defaults) {
         options[prop] = defaults[prop]
     }
 
-    for (prop in optionsParam) {
+    for (let prop in optionsParam) {
         options[prop] = optionsParam[prop]
     }
+
+    const textShadow =  generateTextShadow(options.styles.textShadow)
 
 
     /* This is creating a timeline for each word. */
@@ -83,7 +111,18 @@ function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
         yoyo: options.yoyo,
 
         /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay
+        repeatDelay: options.repeatDelay,
+
+        /* This is setting the out time duration of the animation for each word. */
+        onRepeat: ()=> {
+            tl.duration( options.outDuration );
+        },
+
+        /* This is setting the in time duration of the animation for each word. */
+        onStart: () => {
+            tl.duration( options.inDuration );
+        },
+
     });
 
     /* This is creating a variable called `position` that is storing the value of the object returned
@@ -96,7 +135,7 @@ function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
         y: position.y,
         x: position.x,
         scale: 0,
-        textShadow: '8px -10px 10px #fff, -5px 12px 10px #fff',
+        textShadow: '8px -10px 10px #fff, -5px 12px 10px #fff, '+ textShadow,
         rotate: 180,
     })
 
@@ -105,22 +144,21 @@ function positionRotateScaleBasic($texts, totalDuration, optionsParam) {
             {
                 y: 0,
                 x: 0,
-                duration: options.eachDuration,
+                duration: options.eachDuration(),
                 // ease: CustomEase.create("custom", "M0,0 C0.482,0.174 0.478,0.136 0.7,0.3 0.856,0.462 0.898,0.52 1,1 "),
             },
             {
                 rotation: 0,
                 scale: 1,
-                duration: options.eachDuration * 2,
-                delay: - options.eachDuration * 2.5,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 2.5,
             },
             {
-                textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff',
-                duration:  options.eachDuration * 2.9,
-                delay: - options.eachDuration * 2,
+                textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
+                duration:  options.eachDuration() * 2.9,
+                delay: - options.eachDuration() * 2,
             },
         ],
-        stagger: options.stagger,
-
+        stagger: options.stagger(),
     })
 }
