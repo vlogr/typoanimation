@@ -8,3 +8,6 @@ import './basic/positionScaleBasic'
 import './basic/scaleBasic'
 import './animation5'
 import './animation-text-wave'
+
+
+import './inOut/inOut.positionBasic'
