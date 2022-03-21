@@ -16,18 +16,18 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-2')
+const $title = document.querySelector('.js-texts-animation-2-inOut')
 
 /* This is creating a timeline for each word in the text. */
 fadePositionBasic($title, {
-    /* This is setting the in time duration of the animation for each word. */
+    inDirection: 'top',
+    outDirection: 'right',
+    duration: 5,
     inDuration: 1,
-    /* This is setting the out time duration of the animation for each word. */
-    outDuration: 2,
-
+    outDuration: 1,
     styles: {
         textShadow: {
-            color: '#fa22ff',
+            color: 'green',
             opacity: 1,
             offsetX: 10,
             offsetY: -10,
@@ -62,18 +62,39 @@ function fadePositionBasic($texts, optionsParam) {
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
     const defaults = {
-        direction: 'bottom',
+        inDirection: 'top',
+        outDirection: 'bottom',
+
+        duration: 5,
         inDuration: 1,
         outDuration: 1,
-        eachDuration: function(){
-            return this.inDuration  / $words.length
+
+        inEachDuration: function () {
+            return this.inDuration / $words.length
         },
-        stagger: function(){
-            return this.eachDuration()
+
+        inStagger: function () {
+            return this.inEachDuration()
         },
-        repeat: -1,
-        yoyo: true,
-        repeatDelay: 2,
+
+        outEachDuration: function () {
+            return this.outDuration / $words.length
+        },
+
+        outStagger: function () {
+            return this.outEachDuration()
+        },
+
+        stayTime: function () {
+            return this.duration - this.inDuration + this.outDuration
+        },
+
+
+        delay: function () {
+            return this.inEachDuration() + this.stayTime()
+         },
+ 
+
         styles: {
             textShadow: {
                 color: 'green',
@@ -97,23 +118,8 @@ function fadePositionBasic($texts, optionsParam) {
     /* This is creating a timeline for each word. */
     const tl = gsap.timeline({
         /* This is setting the timeline to repeat the animation. */
-        repeat: options.repeat,
-
-        /* This is setting where true causes the tween to go back and forth, alternating backward and forward on each repeat. */
-        yoyo: options.yoyo,
-
-        /* This is setting the delay between each repeat. */
-        repeatDelay: options.repeatDelay,
-
-        /* This is setting the out time duration of the animation for each word. */
-        onRepeat: ()=> {
-            tl.duration( options.outDuration );
-        },
-
-        /* This is setting the in time duration of the animation for each word. */
-        onStart: () => {
-            tl.duration( options.inDuration );
-        },
+        repeat: -1,
+        repeatDelay: 2,
 
     });
 
@@ -122,33 +128,38 @@ function fadePositionBasic($texts, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let position = switchPositions(options.direction, 50)
+    let inPosition = switchPositions(options.inDirection, 50)
+    let outPosition = switchPositions(options.outDirection, 50)
+
+    
     const textShadow =  generateTextShadow(options.styles.textShadow)
 
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($words, {
         autoAlpha: 0,
-        y: position.y,
-        x: position.x,
+        y: inPosition.y,
+        x: inPosition.x,
         textShadow: textShadow,
     })
 
-    /* This is setting the opacity of the words to 1 and the position of the words to 0. */
     tl.to($words, {
-        /* Setting the opacity of the words to 1. */
         autoAlpha: 1,
-        /* Setting the y position of the words to 0. */
-        y: 0,
-        /* Setting the x position of the words to 0. */
-        x: 0,
-        /* This is setting the duration of the animation for each word. */
-        duration: options.eachDuration(),
-
-        /* This is setting the stagger to start from the end of the animation. */
+        y:0,
+        x:0,
+        duration: options.inEachDuration(),
         stagger: {
             from: 'end', /** start center end */
-            each:  options.stagger()
+            each:  options.inStagger()
         }
-    })
+    }).to($words, {
+        autoAlpha:0,
+        y: outPosition.y,
+        x: outPosition.x,
+        duration: options.outEachDuration(),
+        stagger: {
+            from: 'end', /** start center end */
+            each:  options.outStagger()
+        }
+    }, options.delay())
 }

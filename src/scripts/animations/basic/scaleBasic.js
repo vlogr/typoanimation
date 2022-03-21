@@ -48,6 +48,7 @@ scaleBasic($title, {
  */
 
 function scaleBasic($texts, optionsParam) {
+    if(!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);

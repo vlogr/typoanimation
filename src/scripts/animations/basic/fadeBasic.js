@@ -44,6 +44,7 @@ fadeBasic($title, {
 
 function fadeBasic($texts,  optionsParam) {
 
+    if(!$texts) return
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */

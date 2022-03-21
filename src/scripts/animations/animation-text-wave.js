@@ -4,8 +4,9 @@
 js-texts-animation-9. */
 const $title = document.querySelector('.js-texts-animation-9')
 
-/* This is creating a new Blotter.Text object. */
-const text = new Blotter.Text($title.innerText, {
+if($title){
+  /* This is creating a new Blotter.Text object. */
+  const text = new Blotter.Text($title.innerText, {
     /* This is setting the size of the text. */
     size : 38,
     /* This is setting the color of the text. */
@@ -14,7 +15,7 @@ const text = new Blotter.Text($title.innerText, {
 
   $title.innerText = ''
 
-/* This is creating a new material. */
+  /* This is creating a new material. */
   const material = new Blotter.RollingDistortMaterial();
 
   /* These are the default values for the material. */
@@ -26,14 +27,16 @@ const text = new Blotter.Text($title.innerText, {
   material.uniforms.uRotation.value=-90
   material.uniforms.uSpeed.value=0.18
 
-/* This is creating a new Blotter object. */
+  /* This is creating a new Blotter object. */
   const blotter = new Blotter(material, { texts : text });
-/* This is creating a new Blotter.TextScope object. */
+  /* This is creating a new Blotter.TextScope object. */
   const scope = blotter.forText(text);
 
-/* This is adding the text to the DOM. */
+  /* This is adding the text to the DOM. */
   scope.appendTo($title);
 
-/* This is telling the Blotter to update the material. */
-  blotter.needsUpdate = true
+  /* This is telling the Blotter to update the material. */
+blotter.needsUpdate = true
+}
+
 

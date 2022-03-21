@@ -21,7 +21,7 @@ const $title = document.querySelector('.js-texts-animation-3-inOut')
 /* This is creating a timeline for each word in the text. */
 positionBasic($title, {
     inDirection: 'top',
-    outDirection: 'right',
+    outDirection: 'bottom',
     duration: 5,
     inDuration: 1,
     outDuration: 1,
@@ -47,7 +47,7 @@ positionBasic($title, {
  */
 
 function positionBasic($texts, optionsParam) {
-
+    if(!$texts) return
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
@@ -87,6 +87,10 @@ function positionBasic($texts, optionsParam) {
             return this.duration - this.inDuration + this.outDuration
         },
 
+        delay: function () {
+           return this.inEachDuration() + this.stayTime()
+        },
+
 
         styles: {
             textShadow: {
@@ -113,7 +117,6 @@ function positionBasic($texts, optionsParam) {
         repeat: -1
 
     });
-
 
 
     const textShadow = generateTextShadow(options.styles.textShadow)
@@ -164,10 +167,10 @@ function positionBasic($texts, optionsParam) {
                 /** start center end */
                 each: options.outStagger()
             },
-        }, options.inEachDuration() + options.stayTime())
+        }, options.delay())
 
         .to($words, { // this is for motion blur'
-            rotation: 0.01,
+            rotation: -0.01,
             textShadow: '0px 8px 8px #fff, 0px -6px 5px #fff, ' +
                 textShadow,
             scaleY: function () {
@@ -186,15 +189,16 @@ function positionBasic($texts, optionsParam) {
                 /** start center end */
                 each: options.outStagger()
             },
-        }, options.inEachDuration() + options.stayTime() + 0.02)
+        }, options.delay() + 0.02)
         .to($words, {
+                duration: 0,
                 visibility: 'hidden',
                 stagger: {
                     from: 'end',
                     /** start center end */
                     each: options.outStagger()
                 },
-            }, options.inEachDuration() + options.stayTime() + options
+            }, options.delay() + options
             .outEachDuration() - .2
         )
 }

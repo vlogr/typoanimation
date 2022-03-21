@@ -11,3 +11,4 @@ import './animation-text-wave'
 
 
 import './inOut/inOut.positionBasic'
+import './inOut/inOut.FadePositionBasic'
