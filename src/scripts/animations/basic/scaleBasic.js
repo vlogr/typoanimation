@@ -23,7 +23,7 @@ scaleBasic($title, {
     /* This is setting the in time duration of the animation for each word. */
     inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
-    outDuration: 2,
+    outDuration: 1,
 
     styles: {
         textShadow: {
@@ -134,12 +134,6 @@ function scaleBasic($texts, optionsParam) {
         textShadow: textShadow,
     })
 
-    /* This is setting the duration of the animation for each word. */
-    mastertl.to($words, {
-        duration:  options.eachDuration(),
-        /* Setting the stagger of the timeline. */
-        stagger: options.stagger(),
-    })
 
     /* This is creating a timeline for each word in the text. */
     $words.forEach($word => {

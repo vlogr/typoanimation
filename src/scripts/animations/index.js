@@ -10,6 +10,7 @@ import './animation5'
 import './animation-text-wave'
 
 
+import './inOut/inOut.animation5'
 import './inOut/inOut.positionBasic'
 import './inOut/inOut.FadePositionBasic'
 import './inOut/inOut.positionRotateBasic'
