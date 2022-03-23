@@ -4,9 +4,9 @@ import {
     gsap,
     SplitText,
     CustomEase
-} from "../../vendor/gsap-shockingly-green/src/all";
+} from "../../../vendor/gsap-shockingly-green/src/all";
 
-import generateTextShadow from '../../components/generateTextShadow'
+import generateTextShadow from '../../../components/generateTextShadow'
 
 
 /* This is registering the plugin with the `gsap` library. */

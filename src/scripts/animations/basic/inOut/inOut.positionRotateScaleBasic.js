@@ -3,12 +3,12 @@ library. */
 import {
     gsap,
     SplitText
-} from "../../vendor/gsap-shockingly-green/src/all";
+} from "../../../vendor/gsap-shockingly-green/src/all";
 
 /* This is importing the `switchPositions` function from the `components` folder. */
-import switchPositions from '../../components/switchPositions'
+import switchPositions from '../../../components/switchPositions'
 
-import generateTextShadow from '../../components/generateTextShadow'
+import generateTextShadow from '../../../components/generateTextShadow'
 
 
 /* This is registering the plugin. */

@@ -3,15 +3,15 @@ library. */
 import {
     gsap,
     SplitText
-} from "../../vendor/gsap-shockingly-green/src/all";
+} from "../../../vendor/gsap-shockingly-green/src/all";
 
 /* This is registering the SplitText plugin. */
 gsap.registerPlugin(SplitText);
 
 /* This is importing the `switchPositions` function from the `components` folder. */
-import switchPositions from '../../components/switchPositions'
+import switchPositions from '../../../components/switchPositions'
 
-import generateTextShadow from '../../components/generateTextShadow'
+import generateTextShadow from '../../../components/generateTextShadow'
 
 
 /* This is creating a variable called `$title` that is storing the value of the element with the

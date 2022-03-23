@@ -87,5 +87,10 @@ module.exports = {
       template: "./src/inOut.html",
       filename: "inOut.html"
     }),
+
+    new HtmlWebpackPlugin({
+      template: "./src/flickering.html",
+      filename: "flickering.html"
+    }),
   ]
 };

@@ -10,9 +10,12 @@ import './animation5'
 import './animation-text-wave'
 
 
-import './inOut/inOut.animation5'
-import './inOut/inOut.positionBasic'
-import './inOut/inOut.FadePositionBasic'
-import './inOut/inOut.positionRotateBasic'
-import './inOut/inOut.positionRotateScaleBasic'
-import './inOut/inOut.positionScaleBasic'
+import './basic/inOut/inOut.animation5'
+import './basic/inOut/inOut.positionBasic'
+import './basic/inOut/inOut.FadePositionBasic'
+import './basic/inOut/inOut.positionRotateBasic'
+import './basic/inOut/inOut.positionRotateScaleBasic'
+import './basic/inOut/inOut.positionScaleBasic'
+
+
+import './flickering/fadefFickering'
