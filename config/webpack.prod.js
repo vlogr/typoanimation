@@ -119,6 +119,12 @@ module.exports = {
       filename: "flickering.html"
     }),
 
+    new HtmlWebpackPlugin({
+      template: "./src/overshoot.html",
+      filename: "overshoot.html"
+    }),
+
+
     // ComppresionPlugin will Prepare compressed versions of assets to serve them with Content-Encoding.
     // In this case we use gzip
     // But, you can also use the newest algorithm like brotli, and it's supperior than gzip

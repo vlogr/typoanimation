@@ -92,5 +92,10 @@ module.exports = {
       template: "./src/flickering.html",
       filename: "flickering.html"
     }),
+
+    new HtmlWebpackPlugin({
+      template: "./src/overshoot.html",
+      filename: "overshoot.html"
+    }),
   ]
 };
