@@ -81,12 +81,7 @@ function animation5($texts, optionsParam) {
         },
 
         stayTime: function () {
-            return this.duration - this.inDuration + this.outDuration
-        },
-
-
-        delay: function () {
-            return this.inEachDuration() + this.stayTime()
+            return this.inEachDuration() + (this.duration - this.inDuration + this.outDuration)
         },
 
 
@@ -167,16 +162,15 @@ function animation5($texts, optionsParam) {
             stagger: options.outStagger(),
             duration: options.outEachDuration()
 
-        }, options.delay())
-        /* This is creating a delay between each word. */
+        }, options.stayTime())
         .from($words, {
             textShadow: shadows  + generateShadow,
             stagger: options.outStagger(),
             duration: options.outEachDuration() * 5.3
-        }, options.delay() + 0.01)
+        }, options.stayTime() + 0.01)
         .to($words, {
             visibility: 'hidden',
             duration: 0,
             stagger: options.outStagger(),
-        }, options.delay() + options.outEachDuration())
+        }, options.stayTime() + options.outEachDuration())
 }

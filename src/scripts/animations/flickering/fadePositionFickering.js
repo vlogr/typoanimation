@@ -20,11 +20,13 @@ import generateTextShadow from '../../components/generateTextShadow'
 const $title = document.querySelector('.js-texts-animation-2-flickering')
 
 /* This is creating a timeline for each word in the text. */
-fadePositionBasic($title, {
+fadePositionFickering($title, {
     /* This is setting the in time duration of the animation for each word. */
     inDuration: 2,
     /* This is setting the out time duration of the animation for each word. */
     outDuration: 2,
+
+    type: 'chars',
 
     styles: {
         textShadow: {
@@ -44,47 +46,21 @@ fadePositionBasic($title, {
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function fadePositionBasic($texts, optionsParam) {
-    if(!$texts) return
+function fadePositionFickering($texts, optionsParam) {
+    if (!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
-    const $splitTexts = $SplitTitle.chars
+    let $splitTexts
     const $splitLines = $SplitTitle.lines
 
-
-    let y = []
-
-    $splitLines.forEach((line, i) => {
-        if($splitLines.length/2 > i){
-            y.push(-150, 150)
-        }
-        
-    $SplitTitle.words.forEach(word => {
-        word.childNodes.forEach(node => {
-            if (node instanceof Element ||
-                node instanceof HTMLDocument) {
-                
-                    gsap.set(node, {
-                        y: y[i]
-                    })
-
-            }
-        })
-        })
-    })
-        
-
-
-
+    let options = {}
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
-    let options = {}
 
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
@@ -92,12 +68,13 @@ function fadePositionBasic($texts, optionsParam) {
         direction: 'top',
         inDuration: 1,
         outDuration: 1,
-        eachDuration: function(){
-            return this.inDuration  / $splitTexts.length
+        eachDuration: function () {
+            return this.inDuration / $splitTexts.length
         },
-        stagger: function(){
+        stagger: function () {
             return 0
         },
+        type: 'chars',
         repeat: -1,
         yoyo: true,
         repeatDelay: 0.1,
@@ -112,7 +89,8 @@ function fadePositionBasic($texts, optionsParam) {
         }
     }
 
-    for (let prop in defaults) {$splitLines
+    for (let prop in defaults) {
+        $splitLines
         options[prop] = defaults[prop]
     }
 
@@ -134,60 +112,96 @@ function fadePositionBasic($texts, optionsParam) {
         delay: 1,
 
         /* This is setting the out time duration of the animation for each word. */
-        onRepeat: ()=> {
-            tl.duration( options.outDuration );
+        onRepeat: () => {
+            tl.duration(options.outDuration);
         },
 
         /* This is setting the in time duration of the animation for each word. */
         onStart: () => {
-            tl.duration( options.inDuration );
+            tl.duration(options.inDuration);
         },
 
     });
 
 
+    const textShadow = generateTextShadow(options.styles.textShadow)
 
-    /* This is creating a variable called `position` that is storing the value of the object returned
-    by the `switchPositions` function. */
-    /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let position = switchPositions(options.direction, 100)
 
-    const textShadow =  generateTextShadow(options.styles.textShadow)
+    if (options.type == 'words') {
+        $splitTexts = $SplitTitle.words
+    } else if (options.type == 'lines') {
+        $splitTexts = $SplitTitle.lines
+    } else if (options.type == 'chars') {
+        $splitTexts = $SplitTitle.chars
+    }
+
+
+    let y = []
+
+    $splitLines.forEach((line, i) => {
+        if ($splitLines.length / 2 > i) {
+            y.push(-150, 150)
+        }
+
+        if(options.type == 'lines') {
+            gsap.set(line, {
+                y: y[i]
+            })
+        }else {
+            $SplitTitle.words.forEach(word => {
+                if(options.type == 'words') {
+                    gsap.set(word, {
+                        y: y[i]
+                    })
+                }else if(options.type == 'chars') {
+                    word.childNodes.forEach(node => {
+                        if (node instanceof Element ||
+                            node instanceof HTMLDocument) {
+        
+                            gsap.set(node, {
+                                y: y[i]
+                            })
+        
+                        }
+                    })
+                }
+            })
+        }
+        
+    })
 
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
         opacity: 0,
-        // y: position.y,
-        // x: position.x,
         // textShadow: textShadow,
     })
 
     /* This is setting the opacity of the words to 1 and the position of the words to 0. */
     tl.to($splitTexts, {
-        opacity: 1,
-  
-        duration: options.eachDuration()-0.01,
+            opacity: 1,
 
-        ease:"rough({points:60, strength: 100, clamp: true, template: strong.inOut, taper: in, randomize: flase})",
+            duration: options.eachDuration() - 0.01,
 
-        stagger: {
-            from: "random",
-            grid: [0,0],
-            each: options.stagger()
-        }
-    })
-    .to($splitTexts, {
-        y: 0,
-        x: 0,
-        duration: options.eachDuration(),
+            ease: "rough({points:60, strength: 100, clamp: true, template: strong.inOut, taper: in, randomize: flase})",
 
-        ease:"rough({points:5, strength: 60, template: strong.inOut, taper: both, randomize: flase})",
+            stagger: {
+                from: "random",
+                grid: [0, 0],
+                each: 0
+            }
+        })
+        .to($splitTexts, {
+            y: 0,
+            x: 0,
+            duration: options.eachDuration(),
 
-        stagger: {
-            from: "random",
-            grid: [0,0],
-            each: options.stagger()
-        }
-    },-0.01)
+            ease: "rough({points:5, strength: 60, template: strong.inOut, taper: both, randomize: flase})",
+
+            stagger: {
+                from: "random",
+                grid: [0, 0],
+                each: 0
+            }
+        }, -0.01)
 }
