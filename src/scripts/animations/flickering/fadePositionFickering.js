@@ -22,7 +22,7 @@ const $title = document.querySelector('.js-texts-animation-2-flickering')
 /* This is creating a timeline for each word in the text. */
 fadePositionBasic($title, {
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 3,
+    inDuration: 2,
     /* This is setting the out time duration of the animation for each word. */
     outDuration: 2,
 
@@ -57,10 +57,30 @@ function fadePositionBasic($texts, optionsParam) {
     const $splitTexts = $SplitTitle.chars
     const $splitLines = $SplitTitle.lines
 
-    $splitLines.forEach(line => {
-        const $SplitTitle = new SplitText(line).chars;
-        console.log( $SplitTitle);
+
+    let y = []
+
+    $splitLines.forEach((line, i) => {
+        if($splitLines.length/2 > i){
+            y.push(-150, 150)
+        }
+        
+    $SplitTitle.words.forEach(word => {
+        word.childNodes.forEach(node => {
+            if (node instanceof Element ||
+                node instanceof HTMLDocument) {
+                
+                    gsap.set(node, {
+                        y: y[i]
+                    })
+
+            }
+        })
+        })
     })
+        
+
+
 
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
@@ -76,7 +96,7 @@ function fadePositionBasic($texts, optionsParam) {
             return this.inDuration  / $splitTexts.length
         },
         stagger: function(){
-            return this.eachDuration() / 50
+            return 0
         },
         repeat: -1,
         yoyo: true,
@@ -111,6 +131,7 @@ function fadePositionBasic($texts, optionsParam) {
 
         /* This is setting the delay between each repeat. */
         repeatDelay: options.repeatDelay,
+        delay: 1,
 
         /* This is setting the out time duration of the animation for each word. */
         onRepeat: ()=> {
@@ -136,30 +157,37 @@ function fadePositionBasic($texts, optionsParam) {
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
-        autoAlpha: 0,
-        y: position.y,
-        x: position.x,
+        opacity: 0,
+        // y: position.y,
+        // x: position.x,
         // textShadow: textShadow,
     })
 
     /* This is setting the opacity of the words to 1 and the position of the words to 0. */
     tl.to($splitTexts, {
-        /* Setting the opacity of the words to 1. */
-        autoAlpha: 1,
-        /* Setting the y position of the words to 0. */
-        y: 0,
-        /* Setting the x position of the words to 0. */
-        x: 0,
-        /* This is setting the duration of the animation for each word. */
-        duration: options.eachDuration(),
+        opacity: 1,
+  
+        duration: options.eachDuration()-0.01,
 
-        /* This is setting the stagger to start from the end of the animation. */
-        ease:"rough({points:20, strength: 50, template: strong.inOut, taper: both, randomize: false})",
+        ease:"rough({points:60, strength: 100, clamp: true, template: strong.inOut, taper: in, randomize: flase})",
 
         stagger: {
             from: "random",
-            grid: 'auto',
+            grid: [0,0],
             each: options.stagger()
         }
     })
+    .to($splitTexts, {
+        y: 0,
+        x: 0,
+        duration: options.eachDuration(),
+
+        ease:"rough({points:5, strength: 60, template: strong.inOut, taper: both, randomize: flase})",
+
+        stagger: {
+            from: "random",
+            grid: [0,0],
+            each: options.stagger()
+        }
+    },-0.01)
 }
