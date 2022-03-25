@@ -3,11 +3,12 @@ library. */
 import {
     gsap,
     SplitText,
-    RoughEase
+    RoughEase,
+    CustomEase
 } from "../../vendor/gsap-shockingly-green/src/all";
 
 /* This is registering the SplitText plugin. */
-gsap.registerPlugin(SplitText, RoughEase);
+gsap.registerPlugin(SplitText, RoughEase, CustomEase);
 
 /* This is importing the `switchPositions` function from the `components` folder. */
 import switchPositions from '../../components/switchPositions'
@@ -23,9 +24,9 @@ const $title = document.querySelector('.js-texts-animation-1-overshoot')
 fadePositionOvershoot($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
-    duration: 6,
-    inDuration: 5,
-    outDuration: 5,
+    duration: 7,
+    inDuration: 10,
+    outDuration: 10,
     styles: {
         textShadow: {
             color: 'green',
@@ -75,7 +76,7 @@ function fadePositionOvershoot($texts, optionsParam) {
         },
 
         inStagger: function () {
-            return this.inEachDuration() /5
+            return this.inEachDuration() / 15
         },
 
         outEachDuration: function () {
@@ -83,7 +84,7 @@ function fadePositionOvershoot($texts, optionsParam) {
         },
 
         outStagger: function () {
-            return this.outEachDuration() / 5
+            return this.outEachDuration() / 15
         },
 
         stayTime: function () {
@@ -123,8 +124,8 @@ function fadePositionOvershoot($texts, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let inPosition = switchPositions(options.inDirection, 70)
-    let outPosition = switchPositions(options.outDirection, 70)
+    let inPosition = switchPositions(options.inDirection, 200)
+    let outPosition = switchPositions(options.outDirection, 200)
 
     
     const textShadow =  generateTextShadow(options.styles.textShadow)
@@ -135,6 +136,7 @@ function fadePositionOvershoot($texts, optionsParam) {
         opacity: 0,
         y: inPosition.y,
         x: inPosition.x,
+        perspective: 400,
         // textShadow: textShadow,
     })
 
@@ -147,7 +149,7 @@ function fadePositionOvershoot($texts, optionsParam) {
             from: 'start', /** start center end */
             each:  options.inStagger()
         },
-        ease:"rough({ template: bounce.out, strength: 20, points: 2, taper: out, randomize: false, })",
+        ease: "elastic.out(1.1, 0.9)",
     }).to($splitText, {
         opacity:0,
         y: outPosition.y,
@@ -157,6 +159,6 @@ function fadePositionOvershoot($texts, optionsParam) {
             from: 'start', /** start center end */
             each:  options.outStagger()
         },
-        ease:"elastic.out(0.2, 0.2)",
+        ease: "elastic.out(1.1, 0.9)",
     }, options.stayTime())
 }
