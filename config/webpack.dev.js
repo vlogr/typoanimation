@@ -97,5 +97,10 @@ module.exports = {
       template: "./src/overshoot.html",
       filename: "overshoot.html"
     }),
+
+    new HtmlWebpackPlugin({
+      template: "./src/wiggly.html",
+      filename: "wiggly.html"
+    }),
   ]
 };

@@ -124,6 +124,11 @@ module.exports = {
       filename: "overshoot.html"
     }),
 
+    new HtmlWebpackPlugin({
+      template: "./src/wiggly.html",
+      filename: "wiggly.html"
+    }),
+
 
     // ComppresionPlugin will Prepare compressed versions of assets to serve them with Content-Encoding.
     // In this case we use gzip

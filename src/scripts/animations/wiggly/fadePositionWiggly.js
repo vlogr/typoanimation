@@ -18,15 +18,15 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-1-overshoot')
+const $title = document.querySelector('.js-texts-animation-1-wiggly')
 
 /* This is creating a timeline for each word in the text. */
-fadePositionOvershoot($title, {
+fadePositionWiggly($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
-    duration: 7,
-    inDuration: 10,
-    outDuration: 10,
+    duration: 4,
+    inDuration: 1,
+    outDuration: 2,
     styles: {
         textShadow: {
             color: 'green',
@@ -49,13 +49,13 @@ fadePositionOvershoot($title, {
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function fadePositionOvershoot($texts, optionsParam) {
+function fadePositionWiggly($texts, optionsParam) {
     if(!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
     /* Creating a new array of the words in the text. */
-    const $splitText = $SplitTitle.chars
+    const $splitText = $SplitTitle.chars;
 
 
     /* Creating a new object called `options` that will be used to store the values of the parameters. */
@@ -71,24 +71,9 @@ function fadePositionOvershoot($texts, optionsParam) {
         inDuration: 1,
         outDuration: 1,
 
-        inEachDuration: function () {
-            return this.inDuration / $splitText.length
-        },
-
-        inStagger: function () {
-            return this.inEachDuration() / 15
-        },
-
-        outEachDuration: function () {
-            return this.outDuration / $splitText.length
-        },
-
-        outStagger: function () {
-            return this.outEachDuration() / 15
-        },
 
         stayTime: function () {
-            return (this.duration - this.inDuration + this.outDuration) + this.inEachDuration()
+            return (this.duration - this.inDuration + this.outDuration) 
         },
 
         styles: {
@@ -130,35 +115,54 @@ function fadePositionOvershoot($texts, optionsParam) {
     
     const textShadow =  generateTextShadow(options.styles.textShadow)
 
+    let arr = [ ]
+
+    const dataArr = [200, -200, -20, -170, 320, 70, 290, 300, 160, 40, 200, -40, -220, -190]
+
+    if($splitText.length > dataArr.length) {
+        const retio =  Math.round($splitText.length / dataArr.length ) + 1
+
+        for (let i = 0; i < retio; i++) {
+            arr.push(...dataArr)
+        }
+
+    }else{ 
+        arr.push(...dataArr)
+    }
+
+
+    $splitText.forEach((text, i) => {
+        gsap.set(text, {
+            y: arr[i]
+        })
+    })
+
+
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitText, {
         opacity: 0,
-        y: inPosition.y,
-        x: inPosition.x,
         perspective: 400,
         // textShadow: textShadow,
     })
 
     tl.to($splitText, {
         opacity: 1,
+        duration: options.inDuration + 0.5,
+        stagger: {
+            from: "random",
+            grid: [0, 0],
+            each: 0
+        },
+    }).to($splitText, {
         y:0,
         x:0,
-        duration: options.inEachDuration(),
+        duration: options.inDuration,
+        ease: CustomEase.create("custom", "M0,0 C0,0 0.129,-0.1 0.192,-0.038 0.232,0.002 0.296,0.054 0.316,0.142 0.507,0.585 1,1 1,1 "),
         stagger: {
-            from: 'start', /** start center end */
-            each:  options.inStagger()
+            from: "random",
+            grid: [0, 0],
+            each: 0
         },
-        ease: "elastic.out(1.1, 0.9)",
-    }).to($splitText, {
-        opacity:0,
-        y: outPosition.y,
-        x: outPosition.x,
-        duration: options.outEachDuration(),
-        stagger: {
-            from: 'start', /** start center end */
-            each:  options.outStagger()
-        },
-        ease: "elastic.out(0.9, 1.1)",
-    }, options.stayTime())
+    },0)
 }
