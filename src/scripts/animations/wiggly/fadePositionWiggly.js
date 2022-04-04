@@ -25,7 +25,7 @@ fadePositionWiggly($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
     duration: 4,
-    inDuration: 1,
+    inDuration: 2,
     outDuration: 2,
     styles: {
         textShadow: {
@@ -101,6 +101,7 @@ function fadePositionWiggly($texts, optionsParam) {
         /* This is setting the timeline to repeat the animation. */
         repeat: -1,
         repeatDelay: 2,
+        delay: 2
 
     });
 
@@ -142,13 +143,12 @@ function fadePositionWiggly($texts, optionsParam) {
     object returned by the `switchPositions` function. */
     gsap.set($splitText, {
         opacity: 0,
-        perspective: 400,
         // textShadow: textShadow,
     })
 
     tl.to($splitText, {
         opacity: 1,
-        duration: options.inDuration + 0.5,
+        duration: options.inDuration,
         stagger: {
             from: "random",
             grid: [0, 0],
@@ -164,5 +164,5 @@ function fadePositionWiggly($texts, optionsParam) {
             grid: [0, 0],
             each: 0
         },
-    },0)
+    }, - options.inDuration / 4)
 }

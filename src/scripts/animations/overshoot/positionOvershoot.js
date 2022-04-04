@@ -18,10 +18,10 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-1-overshoot')
+const $title = document.querySelector('.js-texts-animation-2-overshoot')
 
 /* This is creating a timeline for each word in the text. */
-fadePositionOvershoot($title, {
+positionOvershoot($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
     duration: 22,
@@ -49,7 +49,7 @@ fadePositionOvershoot($title, {
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function fadePositionOvershoot($texts, optionsParam) {
+function positionOvershoot($texts, optionsParam) {
     if(!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
@@ -121,12 +121,11 @@ function fadePositionOvershoot($texts, optionsParam) {
 
 
 
-
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let inPosition = switchPositions(options.inDirection, 100)
-    let outPosition = switchPositions(options.outDirection, 100)
+    let inPosition = switchPositions(options.inDirection, 200)
+    let outPosition = switchPositions(options.outDirection, 200)
 
     
     const textShadow =  generateTextShadow(options.styles.textShadow)
@@ -134,14 +133,14 @@ function fadePositionOvershoot($texts, optionsParam) {
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitText, {
-        opacity: 0,
+        visibility: 'hidden',
         y: inPosition.y,
         x: inPosition.x,
         // textShadow: textShadow,
     })
 
     tl.to($splitText, {
-        opacity: 1,
+        visibility: 'visible',
         y:0,
         x:0,
         duration: options.inEachDuration(),
@@ -149,7 +148,7 @@ function fadePositionOvershoot($texts, optionsParam) {
             from: 'start', /** start center end */
             each:  options.inStagger()
         },
-        ease: "elastic.out(1.1, 0.9)",
+        ease: "elastic.out(1.2, 0.8)",
     }).to($splitText, {
         opacity:0,
         y: outPosition.y,
@@ -159,6 +158,10 @@ function fadePositionOvershoot($texts, optionsParam) {
             from: 'start', /** start center end */
             each:  options.outStagger()
         },
-        ease: "elastic.out(0.9, 1.1)",
+        ease: "elastic.out(0.8, 1.2)",
     }, options.stayTime())
+
+console.log(options.stayTime());
+
 }
+
