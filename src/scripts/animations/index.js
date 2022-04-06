@@ -26,5 +26,6 @@ import './flickering/positionRotateFickering'
 
 import './overshoot/fadePositionOvershoot'
 import './overshoot/positionOvershoot'
+import './overshoot/positionRotateOvershoot'
 
 import './wiggly/fadePositionWiggly'
