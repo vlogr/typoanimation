@@ -21,6 +21,7 @@ import './basic/inOut/inOut.positionScaleBasic'
 import './flickering/fadefFickering'
 import './flickering/fadePositionFickering'
 import './flickering/positionFickering'
+import './flickering/positionRotateFickering'
 
 
 import './overshoot/fadePositionOvershoot'

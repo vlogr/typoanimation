@@ -161,7 +161,6 @@ function positionOvershoot($texts, optionsParam) {
         ease: "elastic.out(0.8, 1.2)",
     }, options.stayTime())
 
-console.log(options.stayTime());
 
 }
 
