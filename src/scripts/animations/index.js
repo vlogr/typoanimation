@@ -29,3 +29,4 @@ import './overshoot/positionOvershoot'
 import './overshoot/positionRotateOvershoot'
 
 import './wiggly/fadePositionWiggly'
+import './wiggly/positionRotateWiggly'
