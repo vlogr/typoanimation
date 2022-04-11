@@ -4,11 +4,12 @@ import {
     gsap,
     SplitText,
     RoughEase,
-    CustomEase
+    CustomEase,
+    GSDevTools
 } from "../../vendor/gsap-shockingly-green/src/all";
 
 /* This is registering the SplitText plugin. */
-gsap.registerPlugin(SplitText, RoughEase, CustomEase);
+gsap.registerPlugin(SplitText, RoughEase, CustomEase, GSDevTools);
 
 /* This is importing the `switchPositions` function from the `components` folder. */
 import switchPositions from '../../components/switchPositions'
@@ -18,12 +19,13 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-1-positon-rotate-wiggly')
+const $title = document.querySelector(
+    '.js-texts-animation-1-positon-rotate-wiggly')
 
 /* This is creating a timeline for each word in the text. */
 positionRotateFickering($title, {
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 1,
+    inDuration: 0.5,
     /* This is setting the out time duration of the animation for each word. */
     outDuration: 1,
 
@@ -66,15 +68,9 @@ function positionRotateFickering($texts, optionsParam) {
     /* This is creating a new object called `defaults` that will be used to store the values of the
     parameters. */
     const defaults = {
-        direction: 'bottom',
+        direction: 'top',
         inDuration: 1,
         outDuration: 1,
-        eachDuration: function () {
-            return this.inDuration / $splitTexts.length
-        },
-        stagger: function () {
-            return 0
-        },
         type: 'chars',
         repeat: -1,
         repeatDelay: 2,
@@ -108,9 +104,11 @@ function positionRotateFickering($texts, optionsParam) {
 
         /* This is setting the delay between each repeat. */
         repeatDelay: options.repeatDelay,
-        delay: 1,
+
+        id: "Position & Rotate Wiggly"
 
     });
+
 
 
     const textShadow = generateTextShadow(options.styles.textShadow)
@@ -124,46 +122,79 @@ function positionRotateFickering($texts, optionsParam) {
         $splitTexts = $SplitTitle.chars
     }
 
-    let position = switchPositions(options.direction, 500)
+
+    let xPositionDataArr = []
+
+    const dataArr = [
+        [-200, -150, 100, 20, 0],
+        [200, -200, 20, 0],
+        [250, 200, -20, 0],
+        [-200, 20, 0],
+        [-150, -100, -400, 10, 0], 
+        [130, 100, 300, 0],
+        [-400, -300, 50, 0],
+        [280, -340, 10, 0],
+        [-300, 50, -10, 0],
+        [-250, -200, 400, -10, 0],
+        [50, 500, 0],
+    ]
+
+    if ($splitTexts.length > dataArr.length) {
+        const retio = Math.round($splitTexts.length / dataArr.length) + 1
+
+        for (let i = 0; i < retio; i++) {
+            xPositionDataArr.push(...dataArr)
+        }
+
+    } else {
+        xPositionDataArr.push(...dataArr)
+    }
+
+
+    let position = switchPositions(options.direction, 400)
 
 
     /* This is setting the visibility of the words to hidden and setting the y and x position of the
     words to the value of the object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
-        y: -400,
-        x: 50,
-        rotation: 20,
+        y: position.y,
+        rotation: "random([-45, 45])",
+        visibility: 'hidden'
         // textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
     })
 
     /* This is setting the opacity of the words to 1 and the position of the words to 0. */
     tl.to($splitTexts, {
-            rotation: 0,
-            duration: options.inDuration,
-            stagger: {
-                from: "random",
-                grid: [0, 0],
-                each:  0.2
-            }
-        })
-        .to($splitTexts, {
-            y: 0,
-            duration: options.inDuration,
-            stagger: {
-                from: "random",
-                grid: [0, 0],
-                each:  0.3
-            }
-        },0)
-        .to($splitTexts, {
-            x: 0,
+        visibility: 'visible',
+        rotation: 0,
 
-            duration: options.inDuration,
-            ease: "rough({ template: none.out, strength: 20, points: 3, taper: none, randomize: true, clamp: false})",
-            stagger: {
-                from: "random",
-                grid: [0, 0],
-                each:  0.2
+        
+        y: 0,
+        duration: options.inDuration,
+        stagger: {
+            from: "random",
+            grid: [0, 0],
+            each: 0.03
+        },
+        ease: 'none',
+    })
+
+    $splitTexts.forEach((text, i) => {
+
+        tl.to(text, {
+        duration: options.inDuration * 1.45,
+        
+            keyframes: {
+                x: xPositionDataArr[i]
             }
-        },0)
+        }, 0.01)
+
+    })
+
+
+
+    // GSDevTools.create({
+    //     paused: true
+    // });
+
 }
