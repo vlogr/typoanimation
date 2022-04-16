@@ -124,41 +124,6 @@ function positionRotateFickering($texts, optionsParam) {
         $splitTexts = $SplitTitle.chars
     }
 
-    let xPositionDataArr = []
-    let yPositionDataArr = []
-
-    const dataArrX = [
-        [0, 20, 0, -30, 0, 20, -200, 200, 100, -20,  0],
-        [0, 0, 0, 100, 0, 20, -200, 200, 100, -20,  0],
-    ]
-
-    const dataArrY= [
-        [-200, -150, 0],
-        [200 , 20, 0],
-        [250, 200, -20, 0],
-        [-200, 20, 0],
-        [-150, -100, 10, 0], 
-        [130, 100, 300, 0],
-        [-400, -300, 50, 0],
-        [280, -340, 10, 0],
-        [-300, 50, -10, 0],
-        [-250, -200 , -10, 0],
-        [50, 500, 0],
-    ]
-
-    if ($splitTexts.length > dataArrX.length) {
-        const retio = Math.round($splitTexts.length / dataArrX.length) + 1
-
-        for (let i = 0; i < retio; i++) {
-            xPositionDataArr.push(...dataArrX)
-            yPositionDataArr.push(...dataArrY)
-        }
-
-    } else {
-        xPositionDataArr.push(...dataArrX)
-        yPositionDataArr.push(...dataArrY)
-    }
-
     let position = switchPositions(options.direction, 500)
 
 
@@ -166,23 +131,20 @@ function positionRotateFickering($texts, optionsParam) {
     words to the value of the object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
         visibility: 'hidden',
-        y: -400
+        y: -300,
+        x: 50,
+        rotation: 20,
         // textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
     })
 
     /* This is setting the opacity of the words to 1 and the position of the words to 0. */
     tl
         .to($splitTexts, {
+            
             duration: options.inDuration,
             keyframes:  {
-                visibility: ['visible', 'hidden', 'visible'] ,
-                x: xPositionDataArr,
-                y: 0,
-                rotation: [0, 20, 45, 10, -45, 0],
-
+                visibility: ['visible', 'hidden', 'visible']
             },
-
-            y: 0,
 
             stagger: {
                 from: "random",
@@ -190,4 +152,35 @@ function positionRotateFickering($texts, optionsParam) {
                 each:  0.1
             }
         })
+        .to($splitTexts, {
+            rotation: 0,
+            x: 0,
+            duration: options.inDuration,
+            ease: "rough({ template: none.out, strength: 30, points: 10, taper: none, randomize: true, clamp: false})",
+            stagger: {
+                from: "random",
+                grid: [0, 0],
+                each:  0
+            }
+        },0)
+        .to($splitTexts, {
+            y: 0,
+            duration: options.inDuration,
+            ease: "rough({ template: none.out, strength: 2, points: 50, taper: none, randomize: true, clamp: true})",
+            stagger: {
+                from: "random",
+                grid: [0, 0],
+                each:  0
+            }
+        },0)
+        .to($splitTexts, {
+            rotation: 0,
+            duration: options.inDuration,
+            ease: "rough({ template: none.out, strength: 20, points: 5, taper: none, randomize: true, clamp: false})",
+            stagger: {
+                from: "random",
+                grid: [0, 0],
+                each:  0
+            }
+        },0)
 }

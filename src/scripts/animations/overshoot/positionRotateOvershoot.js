@@ -158,7 +158,7 @@ function positionRotateOvershoot($texts, optionsParam) {
         rotation: 90,
         duration: options.outEachDuration(),
         stagger: {
-            from: 'start', /** start center end */
+            from: 'end', /** start center end */
             each:  options.outStagger()
         },
         ease: "elastic.out(0.8, 1.2)",

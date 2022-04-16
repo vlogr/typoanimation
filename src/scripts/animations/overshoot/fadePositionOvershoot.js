@@ -156,7 +156,7 @@ function fadePositionOvershoot($texts, optionsParam) {
         x: outPosition.x,
         duration: options.outEachDuration(),
         stagger: {
-            from: 'start', /** start center end */
+            from: 'end', /** start center end */
             each:  options.outStagger()
         },
         ease: "elastic.out(0.9, 1.1)",

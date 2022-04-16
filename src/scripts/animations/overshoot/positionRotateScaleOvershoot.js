@@ -18,10 +18,10 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-2-overshoot')
+const $title = document.querySelector('.js-texts-animation-2-rotateScaleOvershoot')
 
 /* This is creating a timeline for each word in the text. */
-positionOvershoot($title, {
+positionRotateScaleOvershoot($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
     duration: 22,
@@ -45,11 +45,10 @@ positionOvershoot($title, {
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function positionOvershoot($texts, optionsParam) {
+function positionRotateScaleOvershoot($texts, optionsParam) {
     if(!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
@@ -128,6 +127,7 @@ function positionOvershoot($texts, optionsParam) {
     let outPosition = switchPositions(options.outDirection, 200)
 
     
+    
     const textShadow =  generateTextShadow(options.styles.textShadow)
 
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
@@ -136,29 +136,35 @@ function positionOvershoot($texts, optionsParam) {
         visibility: 'hidden',
         y: inPosition.y,
         x: inPosition.x,
+        scale: 0,
+        rotation: 95
         // textShadow: textShadow,
     })
 
     tl.to($splitText, {
         visibility: 'visible',
+        rotation: 0,
         y:0,
         x:0,
+        scale: 1,
         duration: options.inEachDuration(),
         stagger: {
             from: 'start', /** start center end */
             each:  options.inStagger()
         },
-        ease: "elastic.out(1.2, 0.8)",
+        ease: "elastic.out(1.1, 0.9)",
     }).to($splitText, {
         opacity:0,
+        scale: 0,
         y: outPosition.y,
         x: outPosition.x,
+        rotation: 90,
         duration: options.outEachDuration(),
         stagger: {
             from: 'end', /** start center end */
             each:  options.outStagger()
         },
-        ease: "elastic.out(0.8, 1.2)",
+        ease: "elastic.out(0.9, 1.1)",
     }, options.stayTime())
 
 
