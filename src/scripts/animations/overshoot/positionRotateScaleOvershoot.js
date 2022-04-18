@@ -164,7 +164,7 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
             from: 'end', /** start center end */
             each:  options.outStagger()
         },
-        ease: "elastic.out(0.9, 1.1)",
+        ease: "elastic.in(1.1, 0.9)",
     }, options.stayTime())
 
 

@@ -158,7 +158,7 @@ function positionOvershoot($texts, optionsParam) {
             from: 'end', /** start center end */
             each:  options.outStagger()
         },
-        ease: "elastic.out(0.8, 1.2)",
+        ease: "elastic.in(1.2, 0.8)",
     }, options.stayTime())
 
 

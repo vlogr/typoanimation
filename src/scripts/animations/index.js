@@ -30,6 +30,7 @@ import './overshoot/positionOvershoot'
 import './overshoot/positionRotateOvershoot'
 import './overshoot/positionRotateScaleOvershoot'
 import './overshoot/scaleOvershoot'
+import './overshoot/positionScaleOvershoot'
 
 import './wiggly/fadePositionWiggly'
 import './wiggly/positionRotateWiggly'

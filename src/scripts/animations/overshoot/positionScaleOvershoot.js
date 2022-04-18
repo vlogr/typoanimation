@@ -4,24 +4,19 @@ import {
     gsap,
     SplitText,
     RoughEase,
-    CustomEase
+    CustomEase,
 } from "../../vendor/gsap-shockingly-green/src/all";
 
 /* This is registering the SplitText plugin. */
 gsap.registerPlugin(SplitText, RoughEase, CustomEase);
 
-/* This is importing the `switchPositions` function from the `components` folder. */
-import switchPositions from '../../components/switchPositions'
-
-import generateTextShadow from '../../components/generateTextShadow'
-
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-1-overshoot')
+const $title = document.querySelector('.js-texts-animation-2-positionScaleOvershoot')
 
 /* This is creating a timeline for each word in the text. */
-fadePositionOvershoot($title, {
+positionScaleOvershoot($title, {
     inDirection: 'bottom',
     outDirection: 'bottom',
     duration: 22,
@@ -45,11 +40,10 @@ fadePositionOvershoot($title, {
  * the opacity of the text to 0, creates a timeline for each word, and sets the opacity of the words to
  * 1
  * @param $texts The element that contains the text.
- * @param totalDuration - The total duration of the animation.
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function fadePositionOvershoot($texts, optionsParam) {
+function positionScaleOvershoot($texts, optionsParam) {
     if(!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
@@ -111,7 +105,6 @@ function fadePositionOvershoot($texts, optionsParam) {
     }
 
 
-    /* This is creating a timeline for each word. */
     const tl = gsap.timeline({
         /* This is setting the timeline to repeat the animation. */
         repeat: -1,
@@ -121,44 +114,35 @@ function fadePositionOvershoot($texts, optionsParam) {
 
 
 
-
-    /* This is creating a variable called `position` that is storing the value of the object returned
-    by the `switchPositions` function. */
-    /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let inPosition = switchPositions(options.inDirection, 100)
-    let outPosition = switchPositions(options.outDirection, 100)
-
-    
-    const textShadow =  generateTextShadow(options.styles.textShadow)
-
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitText, {
-        opacity: 0,
-        y: inPosition.y,
-        x: inPosition.x,
+        scale: 0,
+        y: 80,
+        transformOrigin: 'center bottom',
         // textShadow: textShadow,
     })
 
     tl.to($splitText, {
-        opacity: 1,
-        y:0,
-        x:0,
+        scale: 1,
+        y: 0,
         duration: options.inEachDuration(),
         stagger: {
             from: 'start', /** start center end */
             each:  options.inStagger()
         },
-        ease: "elastic.out(1.1, 0.9)",
+        ease: "elastic.out(1.2, 0.8)",
     }).to($splitText, {
-        opacity:0,
-        y: outPosition.y,
-        x: outPosition.x,
+        y: 80,
+        scale:0,
         duration: options.outEachDuration(),
         stagger: {
             from: 'end', /** start center end */
             each:  options.outStagger()
         },
-        ease: "elastic.in(1.1, 0.9)",
+        ease: "elastic.in(1.2, 0.8)",
     }, options.stayTime())
+
+
 }
+
