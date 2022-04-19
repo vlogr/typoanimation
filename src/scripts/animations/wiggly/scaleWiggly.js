@@ -164,7 +164,6 @@ function scaleWiggly($texts, optionsParam) {
         },
     }, options.stayTime())
 
-    GSDevTools.create()
 
 }
 

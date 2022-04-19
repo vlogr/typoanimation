@@ -34,5 +34,5 @@ import './overshoot/positionScaleOvershoot'
 
 import './wiggly/fadePositionWiggly'
 import './wiggly/positionRotateWiggly'
-import './wiggly/positionRotateWiggly'
+import './wiggly/positonRotateScaleWiggly'
 import './wiggly/scaleWiggly'
