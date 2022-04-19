@@ -166,6 +166,7 @@ function positonRotateScaleWiggly($texts, optionsParam) {
 
     gsap.set($splitTexts, {
         rotateY: 360,
+        perspective: 400,
         scale: 0,
         visibility: 'hidden'
         // textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
