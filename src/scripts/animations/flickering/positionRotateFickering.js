@@ -18,12 +18,13 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-2-positionRotateFlickering')
+const $title = document.querySelector(
+    '.js-texts-animation-2-positionRotateFlickering')
 
 /* This is creating a timeline for each word in the text. */
 positionRotateFickering($title, {
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 4,
+    inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
     outDuration: 1,
 
@@ -124,70 +125,36 @@ function positionRotateFickering($texts, optionsParam) {
         $splitTexts = $SplitTitle.chars
     }
 
-    let xPositionDataArr = []
-    let yPositionDataArr = []
 
-    const dataArrX = [
-        [0, 20, 0, -30, 0, 20, -200, 200, 100, -20,  0],
-        [0, 0, 0, 100, 0, 20, -200, 200, 100, -20,  0],
-    ]
-
-    const dataArrY= [
-        [-200, -150, 0],
-        [200 , 20, 0],
-        [250, 200, -20, 0],
-        [-200, 20, 0],
-        [-150, -100, 10, 0], 
-        [130, 100, 300, 0],
-        [-400, -300, 50, 0],
-        [280, -340, 10, 0],
-        [-300, 50, -10, 0],
-        [-250, -200 , -10, 0],
-        [50, 500, 0],
-    ]
-
-    if ($splitTexts.length > dataArrX.length) {
-        const retio = Math.round($splitTexts.length / dataArrX.length) + 1
-
-        for (let i = 0; i < retio; i++) {
-            xPositionDataArr.push(...dataArrX)
-            yPositionDataArr.push(...dataArrY)
-        }
-
-    } else {
-        xPositionDataArr.push(...dataArrX)
-        yPositionDataArr.push(...dataArrY)
-    }
 
     let position = switchPositions(options.direction, 500)
 
 
-    /* This is setting the visibility of the words to hidden and setting the y and x position of the
-    words to the value of the object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
         visibility: 'hidden',
-        y: -400
-        // textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
+        y: -400,
+        x: -40
     })
 
-    /* This is setting the opacity of the words to 1 and the position of the words to 0. */
-    tl
-        .to($splitTexts, {
-            duration: options.inDuration,
-            keyframes:  {
-                visibility: ['visible', 'hidden', 'visible'] ,
-                x: xPositionDataArr,
-                y: 0,
-                rotation: [0, 20, 45, 10, -45, 0],
+    tl.to($splitTexts, {
+        visibility: 'visible',
+        duration: options.inDuration,
+        x: 0,
+        ease: "rough({ template:  bounce.out, strength: 60, points: 20, taper: both, randomize: false, clamp: false})",
+        stagger: {
+            from: "random",
+            grid: [0, 0],
+            each: 0.1
+        }
+    }).to($splitTexts, {
+        ease: "rough({ template:  bounce.out, strength: 10, points: 20, taper: both, randomize: false, clamp: true})",
 
-            },
-
-            y: 0,
-
-            stagger: {
-                from: "random",
-                grid: [0, 0],
-                each:  0.1
-            }
-        })
+        duration: options.inDuration,
+        y: 0,
+        stagger: {
+            from: "random",
+            grid: [0, 0],
+            each: 0.1
+        }
+    }, 0)
 }

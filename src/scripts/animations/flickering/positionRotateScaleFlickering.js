@@ -18,10 +18,10 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 /* This is creating a variable called `$title` that is storing the value of the element with the
 `class` of `js-texts-animation-1`. */
-const $title = document.querySelector('.js-texts-animation-2-positionRotateFlickering')
+const $title = document.querySelector('.js-texts-animation-2-positionRotateScaleFlickering')
 
 /* This is creating a timeline for each word in the text. */
-positionRotateFickering($title, {
+positionRotateScaleFlickering($title, {
     /* This is setting the in time duration of the animation for each word. */
     inDuration: 4,
     /* This is setting the out time duration of the animation for each word. */
@@ -50,7 +50,7 @@ positionRotateFickering($title, {
  * @param optionsParam - {eachDuration, stagger, repeat, yoyo, repeatDelay}
  */
 
-function positionRotateFickering($texts, optionsParam) {
+function positionRotateScaleFlickering($texts, optionsParam) {
     if (!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
