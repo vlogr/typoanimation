@@ -132,7 +132,7 @@ function positionScaleFlickering($texts,  optionsParam) {
         duration: options.eachDuration(),
         y: 0,
         
-        ease: "rough({ template:  bounce.out,, strength: 20, points: 10, taper: both, randomize: false, clamp: false})",
+        ease: "rough({ template:  power4.out,, strength: 20, points: 12, taper: out, randomize: false, clamp: false})",
 
         stagger: {
             from: "random",
