@@ -140,14 +140,14 @@ function positionRotateFickering($texts, optionsParam) {
         visibility: 'visible',
         duration: options.inDuration,
         x: 0,
-        ease: "rough({ template:  bounce.out, strength: 60, points: 20, taper: both, randomize: false, clamp: false})",
+        ease: "rough({ template:   elastic.out, strength: 40, points: 20, taper: out, randomize: true, clamp: false})",
         stagger: {
             from: "random",
             grid: [0, 0],
             each: 0.1
         }
     }).to($splitTexts, {
-        ease: "rough({ template:  bounce.out, strength: 10, points: 20, taper: both, randomize: false, clamp: true})",
+        ease: "rough({ template:   elastic.out, strength: 10, points: 20, taper: out, randomize: true, clamp: true})",
 
         duration: options.inDuration,
         y: 0,

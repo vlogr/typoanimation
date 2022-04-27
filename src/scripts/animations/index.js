@@ -22,6 +22,7 @@ import './flickering/fadefFickering'
 import './flickering/fadePositionFickering'
 import './flickering/positionFickering'
 import './flickering/positionRotateFickering'
+import './flickering/positionRotateScaleFlickering'
 import './flickering/scaleFlickering'
 import './flickering/positionScaleFickering'
 
