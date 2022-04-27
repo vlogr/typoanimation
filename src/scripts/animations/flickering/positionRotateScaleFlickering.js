@@ -169,15 +169,15 @@ function positionRotateScaleFlickering($texts, optionsParam) {
                 grid: [0, 0],
                 each:  0
             }
-        },-1)
+        },-.5)
         .to($splitTexts, {
             rotation: 0,
             duration: options.inDuration,
-            ease: "rough({ template:  elastic.out, strength: 20, points: 50, taper: out, randomize: true, clamp: false})",
+            ease: "rough({ template:  elastic.out, strength: 20, points: 10, taper: out, randomize: true, clamp: false})",
             stagger: {
                 from: "random",
                 grid: [0, 0],
                 each:  0
             }
-        },-0.01)
+        },0)
 }
