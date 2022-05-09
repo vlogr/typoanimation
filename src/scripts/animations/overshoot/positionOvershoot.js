@@ -50,7 +50,7 @@ positionOvershoot($title, {
  */
 
 function positionOvershoot($texts, optionsParam) {
-    if(!$texts) return
+    if (!$texts) return
 
     /* This is creating a new instance of the SplitText plugin. */
     const $SplitTitle = new SplitText($texts);
@@ -88,7 +88,8 @@ function positionOvershoot($texts, optionsParam) {
         },
 
         stayTime: function () {
-            return (this.duration - (this.inDuration + this.outDuration)) + this.inEachDuration()
+            return (this.duration - (this.inDuration + this
+                .outDuration)) + this.inEachDuration()
         },
 
         styles: {
@@ -127,8 +128,8 @@ function positionOvershoot($texts, optionsParam) {
     let inPosition = switchPositions(options.inDirection, 200)
     let outPosition = switchPositions(options.outDirection, 200)
 
-    
-    const textShadow =  generateTextShadow(options.styles.textShadow)
+
+    const textShadow = generateTextShadow(options.styles.textShadow)
 
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
@@ -140,27 +141,35 @@ function positionOvershoot($texts, optionsParam) {
     })
 
     tl.to($splitText, {
-        visibility: 'visible',
-        y:0,
-        x:0,
-        duration: options.inEachDuration(),
-        stagger: {
-            from: 'start', /** start center end */
-            each:  options.inStagger()
-        },
-        ease: "elastic.out(1.2, 0.8)",
-    }).to($splitText, {
-        opacity:0,
-        y: outPosition.y,
-        x: outPosition.x,
-        duration: options.outEachDuration(),
-        stagger: {
-            from: 'end', /** start center end */
-            each:  options.outStagger()
-        },
-        ease: "elastic.in(1.2, 0.8)",
-    }, options.stayTime())
+            visibility: 'visible',
+            y: 0,
+            x: 0,
+            duration: options.inEachDuration(),
+            stagger: {
+                from: 'start',
+                /** start center end */
+                each: options.inStagger()
+            },
+            ease: "elastic.out(1.2, 0.8)",
+        }).to($splitText, {
+            y: outPosition.y,
+            x: outPosition.x,
+            duration: options.outEachDuration(),
+            stagger: {
+                from: 'end',
+                /** start center end */
+                each: options.outStagger()
+            },
+            ease: "elastic.in(1.2, 0.8)",
+        }, options.stayTime())
+        .to($splitText, {
+            visibility: 'hidden',
+            stagger: {
+                from: 'end',
+                /** start center end */
+                each: options.outStagger()
+            },
+        }, options.stayTime() + options.outEachDuration())
 
 
 }
-

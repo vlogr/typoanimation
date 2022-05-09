@@ -133,7 +133,6 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
     /* This is setting the opacity of the words to 0 and the position of the words to the value of the
     object returned by the `switchPositions` function. */
     gsap.set($splitText, {
-        visibility: 'hidden',
         y: inPosition.y,
         x: inPosition.x,
         scale: 0,
@@ -142,7 +141,6 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
     })
 
     tl.to($splitText, {
-        visibility: 'visible',
         rotation: 0,
         y:0,
         x:0,
@@ -154,7 +152,6 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
         },
         ease: "elastic.out(1.1, 0.9)",
     }).to($splitText, {
-        opacity:0,
         scale: 0,
         y: outPosition.y,
         x: outPosition.x,
@@ -166,7 +163,7 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
         },
         ease: "elastic.in(1.1, 0.9)",
     }, options.stayTime())
-
+    
 
 }
 
