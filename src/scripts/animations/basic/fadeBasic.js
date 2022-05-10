@@ -57,7 +57,7 @@ function fadeBasic($texts,  optionsParam) {
         },
         repeat: -1,
         yoyo: true,
-        repeatDelay: 20,
+        repeatDelay: 2,
         styles: {
             textShadow: {
                 color: 'green',
