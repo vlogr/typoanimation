@@ -22,9 +22,9 @@ const $title = document.querySelector('.js-texts-animation-2-flickering')
 /* This is creating a timeline for each word in the text. */
 fadePositionFickering($title, {
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 2,
+    inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
-    outDuration: 2,
+    outDuration: 1,
 
     type: 'chars',
 
@@ -140,7 +140,7 @@ function fadePositionFickering($texts, optionsParam) {
 
     $splitLines.forEach((line, i) => {
         if ($splitLines.length / 2 > i) {
-            y.push(-150, 150)
+            y.push(-100, 100)
         }
 
         if(options.type == 'lines') {

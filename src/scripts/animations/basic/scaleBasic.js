@@ -24,16 +24,6 @@ scaleBasic($title, {
     inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
     outDuration: 1,
-
-    styles: {
-        textShadow: {
-            color: '#fa22ff',
-            opacity: 1,
-            offsetX: 10,
-            offsetY: -10,
-            blur: 5
-        }
-    }
 })
 
 

@@ -18,17 +18,7 @@ fadeBasic($title, {
     /* This is setting the in time duration of the animation for each word. */
     inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
-    outDuration: 2,
-
-    styles: {
-        textShadow: {
-            color: 'green',
-            opacity: 1,
-            offsetX: 10,
-            offsetY: -10,
-            blur: 5
-        }
-    }
+    outDuration: 1,
 })
 
 

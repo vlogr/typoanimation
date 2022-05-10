@@ -24,18 +24,10 @@ const $title = document.querySelector('.js-texts-animation-3')
 positionBasic($title, {
     direction: 'top',
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 10,
+    inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
-    outDuration: 4,
-    styles: {
-        textShadow: {
-            color: 'green',
-            opacity: 1,
-            offsetX: 10,
-            offsetY: -10,
-            blur: 5
-        }
-    }
+    outDuration: 1,
+
 })
 
 
