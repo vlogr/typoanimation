@@ -131,7 +131,7 @@ function positionRotateScaleFlickering($texts, optionsParam) {
     words to the value of the object returned by the `switchPositions` function. */
     gsap.set($splitTexts, {
         scale: 0,
-        y: -200,
+        y: -150,
         x: 50,
         rotation: 60,
         // textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
@@ -153,31 +153,31 @@ function positionRotateScaleFlickering($texts, optionsParam) {
         .to($splitTexts, {
             x: 0,
             duration: options.inDuration / 1.5,
-            ease: "rough({ template: elastic.out, strength: 30, points: 10, taper: out, randomize: true, clamp: false})",
+            ease: "rough({ template: elastic.inOut, strength: 30, points: 10, taper: both, randomize: true, clamp: false})",
             stagger: {
                 from: "random",
                 grid: [0, 0],
-                each:  0
+                each:  0.01
             }
         },0)
         .to($splitTexts, {
             y: 0,
             duration: options.inDuration,
-            ease: "rough({ template:  elastic.out, strength: 10, points: 50, taper: out, randomize: true, clamp: true})",
+            ease: "rough({ template:  elastic.inOut, strength: 10, points: 50, taper: both, randomize: true, clamp: true})",
             stagger: {
                 from: "random",
                 grid: [0, 0],
-                each:  0
+                each:  0.01
             }
         },-.5)
         .to($splitTexts, {
             rotation: 0,
             duration: options.inDuration,
-            ease: "rough({ template:  elastic.out, strength: 20, points: 10, taper: out, randomize: true, clamp: false})",
+            ease: "rough({ template:  elastic.inOut, strength: 20, points: 10, taper: both, randomize: true, clamp: false})",
             stagger: {
                 from: "random",
                 grid: [0, 0],
-                each:  0
+                each:  0.01
             }
         },0)
 }
