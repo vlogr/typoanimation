@@ -126,8 +126,8 @@ function positionRotateFickering($texts, optionsParam) {
     let xPositionDataArr = []
 
     const dataArr = [
-        [-200, -150, 100, 20, 0],
-        [200, -200, 20, 0],
+        [-200, -150, 100, 120, 20, 0],
+        [200, 100, -200, 20, 0],
         [250, 200, -20, 0],
         [-200, 20, 0],
         [-150, -100, -400, 10, 0], 
@@ -174,10 +174,11 @@ function positionRotateFickering($texts, optionsParam) {
         stagger: {
             from: "random",
             grid: [0, 0],
-            each: 0.03
+            each: 0.02
         },
-        ease: 'none',
+        ease: "sine.out"
     })
+    
 
     $splitTexts.forEach((text, i) => {
 
@@ -185,7 +186,8 @@ function positionRotateFickering($texts, optionsParam) {
         duration: options.inDuration * 1.45,
         
             keyframes: {
-                x: xPositionDataArr[i]
+                x: xPositionDataArr[i],
+                ease: "sine.out"
             }
         }, 0.01)
 
