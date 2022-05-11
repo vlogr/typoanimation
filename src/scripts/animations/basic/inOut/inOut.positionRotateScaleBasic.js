@@ -160,14 +160,18 @@ function positionRotateScaleBasic($texts, optionsParam) {
             },
             {
                 rotation: 0,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 2.1,
+            },
+            {
                 scale: 1,
-                duration: options.inEachDuration() * 2,
-                delay: - options.inEachDuration() * 2.5,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 1.8,
             },
             {
                 textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
-                duration:  options.inEachDuration() * 2.9,
-                delay: - options.inEachDuration() * 2,
+                duration:  options.eachDuration() * 2.9,
+                delay: - options.eachDuration() * 2.1,
             },
         ],
         stagger: options.inStagger()
@@ -181,14 +185,18 @@ function positionRotateScaleBasic($texts, optionsParam) {
             },
             {
                 rotation: 180,
-                scale: 0,
-                duration: options.outEachDuration() * 2,
-                delay: - options.outEachDuration() * 1.1,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 2.1,
             },
             {
-                textShadow: '8px -10px 10px #fff, -5px 12px 10px #fff, '+ textShadow,
-                duration:  options.outEachDuration() * 2.9,
-                delay: - options.outEachDuration() * 2.5,
+                scale: 0,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 1.8,
+            },
+            {
+                textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
+                duration:  options.eachDuration() * 2.9,
+                delay: - options.eachDuration() * 2.1,
             },
         ],
         stagger: options.outStagger()

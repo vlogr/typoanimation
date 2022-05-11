@@ -2,7 +2,8 @@
 library. */
 import {
     gsap,
-    SplitText
+    SplitText,
+    GSDevTools
 } from "../../vendor/gsap-shockingly-green/src/all";
 
 /* This is importing the `switchPositions` function from the `components` folder. */
@@ -12,7 +13,7 @@ import generateTextShadow from '../../components/generateTextShadow'
 
 
 /* This is registering the plugin. */
-gsap.registerPlugin(SplitText);
+gsap.registerPlugin(SplitText, GSDevTools);
 
 
 
@@ -140,16 +141,22 @@ function positionRotateScaleBasic($texts, optionsParam) {
             },
             {
                 rotation: 0,
+                duration: options.eachDuration() * 2,
+                delay: - options.eachDuration() * 2.1,
+            },
+            {
                 scale: 1,
                 duration: options.eachDuration() * 2,
-                delay: - options.eachDuration() * 2.5,
+                delay: - options.eachDuration() * 1.8,
             },
             {
                 textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
                 duration:  options.eachDuration() * 2.9,
-                delay: - options.eachDuration() * 2,
+                delay: - options.eachDuration() * 2.1,
             },
         ],
         stagger: options.stagger(),
     })
+
+
 }

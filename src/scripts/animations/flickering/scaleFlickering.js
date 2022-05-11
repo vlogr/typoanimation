@@ -64,7 +64,7 @@ function scaleFlickering($texts,  optionsParam) {
             return this.inDuration / $SplitText.length
         },
         stagger: function(){
-            return this.eachDuration() / $SplitText.length
+            return this.eachDuration() / 10
         },
         repeat: -1,
         yoyo: true,

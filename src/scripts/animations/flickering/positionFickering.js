@@ -158,7 +158,7 @@ function positionFickering($texts, optionsParam) {
             stagger: {
                 from: "random",
                 grid: [0, 0],
-                each:  options.eachDuration() / 10   
+                each:  options.eachDuration() / 20   
             }
         })
         .to($splitTexts, {

@@ -17,9 +17,9 @@ const $title = document.querySelector('.js-texts-animation-1-flickering')
 /* This is creating a timeline for each word in the text. */
 fadefFickering($title, {
     /* This is setting the in time duration of the animation for each word. */
-    inDuration: 1.5,
+    inDuration: 1,
     /* This is setting the out time duration of the animation for each word. */
-    outDuration: 2,
+    outDuration: 1,
 
     styles: {
         textShadow: {
