@@ -136,7 +136,7 @@ function positionFickering($texts, optionsParam) {
         $splitTexts = $SplitTitle.chars
     }
 
-    let position = switchPositions(options.direction, 500)
+    let position = switchPositions(options.direction, 600)
 
 
     /* This is setting the visibility of the words to hidden and setting the y and x position of the
@@ -171,7 +171,7 @@ function positionFickering($texts, optionsParam) {
             stagger: {
                 from: "random",
                 grid: [0, 0],
-                each: options.eachDuration() / 10  
+                each: 0.008
             }
         }, - options.eachDuration() / 2  )
 }

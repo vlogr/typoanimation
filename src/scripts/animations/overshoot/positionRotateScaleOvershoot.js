@@ -123,8 +123,8 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you get idea about animations direction */
-    let inPosition = switchPositions(options.inDirection, 200)
-    let outPosition = switchPositions(options.outDirection, 200)
+    let inPosition = switchPositions(options.inDirection,50)
+    let outPosition = switchPositions(options.outDirection, 35)
 
     
     
@@ -136,7 +136,7 @@ function positionRotateScaleOvershoot($texts, optionsParam) {
         y: inPosition.y,
         x: inPosition.x,
         scale: 0,
-        rotation: 95
+        rotation: 90
         // textShadow: textShadow,
     })
 

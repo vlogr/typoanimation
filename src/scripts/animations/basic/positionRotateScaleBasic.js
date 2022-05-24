@@ -137,7 +137,6 @@ function positionRotateScaleBasic($texts, optionsParam) {
                 y: 0,
                 x: 0,
                 duration: options.eachDuration(),
-                // ease: CustomEase.create("custom", "M0,0 C0.482,0.174 0.478,0.136 0.7,0.3 0.856,0.462 0.898,0.52 1,1 "),
             },
             {
                 rotation: 0,
@@ -147,7 +146,7 @@ function positionRotateScaleBasic($texts, optionsParam) {
             {
                 scale: 1,
                 duration: options.eachDuration() * 2,
-                delay: - options.eachDuration() * 1.8,
+                delay: - options.eachDuration() * 1.7,
             },
             {
                 textShadow: '0px 0px 0px #fff, 0px 0px 0px #fff, '+ textShadow,
@@ -160,3 +159,4 @@ function positionRotateScaleBasic($texts, optionsParam) {
 
 
 }
+// GSDevTools.create()

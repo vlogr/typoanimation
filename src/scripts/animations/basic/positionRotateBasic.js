@@ -113,7 +113,7 @@ function positionRotateBasic($texts, optionsParam) {
     /* This is creating a variable called `position` that is storing the value of the object returned
     by the `switchPositions` function. */
     /**@readme please have look at switchPositions function from the `components` folder. there you will get idea about animations direction */
-    let position = switchPositions('bottom', 300)
+    let position = switchPositions('bottom', 400)
 
 
     /* This is setting the z-index of each word to the index of the word in the array. */
